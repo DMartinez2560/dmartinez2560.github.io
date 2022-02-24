@@ -1,37 +1,13 @@
-## Welcome to GitHub Pages
+## Comparing Unsupervised and Supervised Techniques for Instance-level Segmentation: Cityscapes Dataset
+### Heriberto A Nieves, Daniel Enrique Martinez, Juan Diego Florez-Castillo, Kartik Ramachandruni, Vivek Mallampati 
 
-This is a test
+Image segmentation is the task of identifying individual objects in the image based on factors such as class, occurrence, and whether they lie in the foreground or background. Our project explores instance segmentation, which combines object detection and semantic segmentation for foreground objects. Instance segmentation provides us with substantial information about the scene – the class of each object, the frequency of each class, and pixel level segmentation masks of objects. The diverse range of information that instance segmentation outputs thus makes the task a challenging problem to solve. 
 
-You can use the [editor on GitHub](https://github.com/DMartinez2560/dmartinez2560.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
+There are numerous real-world applications to instance segmentation which make it an essential research problem. For example, the biomedical community relies on deep learning techniques to identify distinct types of cells in electron microscopy images [1] or CT scans of cancer patients [2]. Instance segmentation is also a crucial component to perform scene understanding for applications such as image captioning [3]. In addition, autonomous vehicle navigation systems leverage segmentation techniques to distinguish between pedestrians, vehicles, traffic symbols, and background objects as well as identify subclasses of these objects [4]. Instance segmentation is, therefore, a crucial component of many real-world vision systems.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Works have also considered unsupervised learning algorithms techniques for image segmentation – such as for example, a Local GMM with an additional penalty term and a local bias function that to segments noisy images affected by intensity inhomogeneity [5] . Alternatively, images of urban environments have often been the targeted datasets to test novel deep learning techniques for instance segmentation. The Panoptic-DeepLab algorithm, for example, uses de-coupled spatial pyramid pooling layers Atrous Spatial Pyramid Pooling and dual decoder modules to simultaneously complete instance and panopticsemantic-level segmentation, achieving a 39% AP on the Cityscapes dataset [6]. The FASSST algorithm performs real-time handles instance-level segmentation at video-grade speed at high speeds, high efficiency, and low storage requirements by implementing a single-stage R-CNN   approach with an instance attention module to efficiently segment target regions and a multi-layer feature fusion model to obtain regions of interest and class probabilities [7]. 
+For these reasons, we have chosen the Cityscapes dataset for this project [8]. Cityscapes is a collection of on-board vehicle data taken from drives of 27 cities with annotations of street images using 30 visual classes. This dataset is abundant in examples with 5000 fine annotations and 20000 coarse annotations of urban street scenes. The dataset has also been extensively cited by prior work and there are numerous established benchmarks. 
 
-### Markdown
+We will use the Unsupervised methods of Density-Based Clustering and Deep Learning Model. For density-based clustering we will compare the performance for three different preparations of the data: raw images with no preprocessing, preprocessing that only feeds foreground images to the algorithm, and preprocessing that only feeds foreground images with limited colors and sharper edges. We will implement CCyC-PDAM architecture for our unsupervised deep learning model inspired from the Microscopy image instance segmentation
+For supervised methods we will use model chaining and domain adaptation of the pretrained models.  In the supervised model chaining, we will use the divide and conquer method, and image instance segmentation will be accomplished from object detection and pixel segmentation. For domain adaptation, do instance segmentation by jointly optimizing spatial embeddings and clustering bandwidth
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-Image segmentation is the task of identifying individual objects in the image based on many factors such as their class, occurrence, and whether they belong to the foreground and background. For example, semantic segmentation clusters object into groups without individual groups while object detection identifies the individual classes that objects belong to. Our project explores the problem of instance segmentation, which combines object detection and semantic segmentation for foreground objects. Instance segmentation provides us with a lot ofsubstantial information – which class each object belongs to, too, how many instances of each class are in the scene, and where each object is in the image. The diverse range of information that instance segmentation provides  thus makes the task a challenging research problem to solve.
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/DMartinez2560/dmartinez2560.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
