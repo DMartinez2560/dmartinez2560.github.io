@@ -8,6 +8,8 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
+Image segmentation is the task of identifying individual objects in the image based on many factors such as their class, occurrence, and whether they belong to the foreground and background. For example, semantic segmentation clusters object into groups without individual groups while object detection identifies the individual classes that objects belong to. Our project explores the problem of instance segmentation, which combines object detection and semantic segmentation for foreground objects. Instance segmentation provides us with a lot ofsubstantial information – which class each object belongs to, too, how many instances of each class are in the scene, and where each object is in the image. The diverse range of information that instance segmentation provides  thus makes the task a challenging research problem to solve.
+
 ```markdown
 Syntax highlighted code block
 
