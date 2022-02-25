@@ -16,7 +16,8 @@ For these reasons, we have chosen the Cityscapes dataset8 for this project. City
 
 The contribution of our project is an extensive quantitative and qualitative comparison of the methods. We anticipate that supervised models will outperform unsupervised models on quantitative metrics. However, we are mainly interested in studying the qualitative differences in these models.
 
-![Project timeline gantt chart](/dmartinez2560.github.io/assets/images/Team 17 Gantt Chart.png)
+### Project Timeline:
+![Project Timeline Gantt Chart](/assets/images/Gantt.PNG)
 
 ### References
 
