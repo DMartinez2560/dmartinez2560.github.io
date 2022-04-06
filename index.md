@@ -168,13 +168,9 @@ Aachen and Nuremberg data exist at 10 and 4 clusters respectively.
 
 #### Qualitative Comparison and Discussion
 
-::: figure*
 ![image](assets/images/figures/aachen_test_results.png)
-:::
 
-::: figure*
 ![image](assets/images/figures/nur_test_results.png)
-:::
 
 Figures
 [\[fig:clusters_aachen\]](#fig:clusters_aachen){reference-type="ref"
@@ -245,9 +241,7 @@ objects around the edges of the road, the division is not as clear.
 We plan on comparing the performance of DBSCAN on the raw images against
 using pre-processing techniques such as extracting the HOG features.
 
-::: figure*
 ![](assets/images/figures/DBScan_aachen.JPG)
-:::
 
 ## Supervised Learning - Model Chaining
 
@@ -278,9 +272,7 @@ model for use with SegMyO. Predicted outputs of the entire system are
 final pixel-level labeled images that can be evaluated against the
 Cityscapes fine annotated data.
 
-::: figure*
-![image](assets/images/figures/Image4Results.pdf)
-:::
+![image](assets/images/figures/Image4Results.PNG)
 
 **Method 2: Deep Neural Network** utilizes the annotation masks to train
 the model uses the architectures like RESNET50 or VGG-16 [14] to
@@ -297,7 +289,6 @@ architectures and seeing qualitative measure comparisons.
 
 ### Model Architecture Descriptions
 
-::: enumerate
 1.  **DETR**: It approaches object detection as a direct set prediction
     problem. It consists of a set-based global loss, which forces unique
     predictions via bipartite matching, and a Transformer
@@ -337,15 +328,12 @@ architectures and seeing qualitative measure comparisons.
     effective axial-attention blocks on top of the first few stages of
     ResNets. This hybrid CNN-Transformer architecture is very effective
     on segmentation tasks[17].
-:::
 
-::: figure*
+
 ![image](assets/images/figures/deepLab_combine_images.png)
-:::
 
 ### Quantitative Metrics
 
-::: enumerate
 1.  **Mean Intersection over Union (mIoU)** is another method to
     evaluate the predictions from an image segmentation model. This is a
     metric that takes the IoU over all of the classes and takes the mean
@@ -362,7 +350,7 @@ architectures and seeing qualitative measure comparisons.
 3.  **Object count** is a metric of evaluation for the object
     recognition algorithm used in Method 1. The simple metric can help
     us keep on track and measure the performance of the algorithm.
-:::
+
 
 ### Results
 
@@ -418,9 +406,6 @@ Model Time in [1](#table:Runtime){reference-type="ref"
 reference="table:Runtime"}.
 
 ![image](assets/images/Tables.PNG)
-
-
-
 
 ![image](assets/images/figures/Image10Results.PNG)
 
