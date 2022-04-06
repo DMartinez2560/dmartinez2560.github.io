@@ -1,7 +1,9 @@
-## Comparing Unsupervised and Supervised Techniques for Instance-level Segmentation: Cityscapes Dataset
+# Comparing Unsupervised and Supervised Techniques for Instance-level Segmentation: Cityscapes Dataset
 ### Heriberto A Nieves, Daniel Enrique Martinez, Juan-Diego Florez-Castillo, Kartik Ramachandruni, Vivek Mallampati 
 
-## Problem Definition
+## Introduction
+
+### Problem Definition
 
 Image segmentation is the task of identifying individual objects in the
 image based on class, occurrence, and presence in either the foreground
@@ -11,7 +13,7 @@ objects. Instance segmentation provides the necessary information about
 the scene---the class of each object, the frequency of each class, and
 pixel-level segmentation masks of objects.
 
-## Background
+### Background
 
 There are numerous real world application to instance segmentation which
 make it an essential yet challenging research problem. For instance, the
@@ -32,7 +34,7 @@ background objects. The planning algorithms should also further identify
 sub-classes of these objects in order to appropriately react to
 situations while on the road.
 
-## Related Work
+### Related Work
 
 Images of urban environments are often used to test novel deep learning
 techniques for segmentation. The Panoptic-DeepLab
