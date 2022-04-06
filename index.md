@@ -248,7 +248,7 @@ We plan on comparing the performance of DBSCAN on the raw images against
 using pre-processing techniques such as extracting the HOG features.
 
 ::: figure*
-![image](figures/DBScan_aachen.JPG){width="90%"}
+![](figures/DBScan_aachen.JPG){width="90%"}
 :::
 
 Supervised algorithms were performed using the fine annotations of the
