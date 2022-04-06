@@ -89,7 +89,7 @@ by clustering, and feature extraction.
 
 The K-Means algorithm, described in
 Eq. [1] was implemented on the Cityscapes raw images to
-perform pixel-based clustering. Given a set of observations, $X$, we
+perform pixel-based clustering. Given a set of observations, `X`, we
 want to group the observations into `k` sets, `S`, to minimize the
 in-cluster variance by operating using the in-cluster mean, $\mu$.
 
