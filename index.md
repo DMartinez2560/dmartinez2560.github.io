@@ -1,5 +1,5 @@
 ## Comparing Unsupervised and Supervised Techniques for Instance-level Segmentation: Cityscapes Dataset
-### Heriberto A Nieves, Daniel Enrique Martinez, Juan Diego Florez-Castillo, Kartik Ramachandruni, Vivek Mallampati 
+### Heriberto A Nieves, Daniel Enrique Martinez, Juan-Diego Florez-Castillo, Kartik Ramachandruni, Vivek Mallampati 
 
 ## Problem Definition
 
