@@ -426,9 +426,9 @@ reference="table:Runtime"}.
 
 
 
-![image](assets/images/figures/Image10Results.pdf)
+![image](assets/images/figures/Image10Results.PNG)
 
-![image](assets/images/figures/Image8Results.pdf)
+![image](assets/images/figures/Image8Results.PNG)
 
 
 ### Discussion
