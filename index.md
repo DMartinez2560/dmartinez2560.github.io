@@ -18,15 +18,15 @@ make it an essential yet challenging research problem. For instance, the
 biomedical community relies on deep learning techniques to identify
 nuclei in electron microscopy images or to locate malignant cancer cells
 from CT scans; these act as acting as visual aids to perform more
-accurate diagnosis [@ronneberger2015u; @mzurikwao2020towards].
+accurate diagnosis [1, 2].
 
 Scene understanding is not possible without instance segmentation. By
 acquiring information about objects in an image, we can perform numerous
 computer vision tasks such as image captioning, video analysis and
-visual question answering [@cai2020panoptic].
+visual question answering [3].
 
 Autonomous vehicle navigation also makes use of instance segmentation
- [@de2019single]. The navigation frameworks need to be able to
+ [4]. The navigation frameworks need to be able to
 distinguish between pedestrians, other vehicles, traffic symbols, and
 background objects. The planning algorithms should also further identify
 sub-classes of these objects in order to appropriately react to
@@ -36,10 +36,10 @@ situations while on the road.
 
 Images of urban environments are often used to test novel deep learning
 techniques for segmentation. The Panoptic-DeepLab
-algorithm[@cheng2020panoptic], for example, uses decoupled spatial
+algorithm[5], for example, uses decoupled spatial
 pyramid pooling layers and dual decoder modules to simultaneously
 complete instance and semantic-level segmentation. The FASSST
-algorithm[@cheng2022fassst] performs real-time instance-level
+algorithm[6] performs real-time instance-level
 segmentation at video-grade speed by implementing an instance attention
 module to efficiently segment target regions and a multi-layer feature
 fusion model to obtain regions of interest and class probabilities.
@@ -47,11 +47,11 @@ Works have also considered unsupervised learning techniques for image
 segmentation. For example, a Local Gaussian Mixture Model (GMM) with an
 additional penalty term and a local bias function has been used to
 segment noisy images affected by
-intensity-nonhomogeneity[@liu2013image].
+intensity-nonhomogeneity[7].
 
 ## Cityscapes Dataset
 
-We used the Cityscapes dataset for this project [@cordts2016cityscapes].
+We used the Cityscapes dataset for this project [8].
 Cityscapes is a collection of on-board vehicle data such as GPS,
 odometry, stereo images and disparity maps taken from drives of 27
 cities along with annotations of street images using 30 visual classes.
@@ -115,10 +115,10 @@ gradient orientation calculated from a localized image patch.
 
 HOGs are popular image descriptors used to match key-points between
 images. They are more commonly used to generate features such as
-SIFT [@lowe1999object] and SURF [@bay2006surf]. HOG descriptors are also
+SIFT [9] and SURF [10]. HOG descriptors are also
 used in object detection methods by using these image descriptors along
 with supervised learning algorithms such as Support Vector Machines to
-perform object or human detection [@dalal2005histograms]. We aim to use
+perform object or human detection [11]. We aim to use
 these descriptors as input to unsupervised clustering techniques and
 observe the performance on pixel-wise image segmentation.
 
@@ -265,14 +265,14 @@ obtaining the pixel level map using deep neural network architecture.
 unlabeled (n=10) Cityscapes images,
 [\[fig:DETR4\]](#fig:DETR4){reference-type="ref"
 reference="fig:DETR4"}A, into the DEtection TRansformer (DETR) model
-(pre-trained on the COCO dataset) [@carion2020end]. Each of the images
+(pre-trained on the COCO dataset) [12]. Each of the images
 were from the Nuremburg dataset. Primary outputs of the model include
 images with bounding boxes labeled,
 [\[fig:DETR4\]](#fig:DETR4){reference-type="ref"
 reference="fig:DETR4"}B, and a list of bounding boxes. In the future,
 the model outputs will then be inputted into the Segment My Object
 (SegMyO) pipeline which takes bounding box information and applies masks
-to the raw image using Mask R-CNN [@delearde2021segment]. DETR models
+to the raw image using Mask R-CNN [13]. DETR models
 were compared for performance and computation time to best select a
 model for use with SegMyO. Predicted outputs of the entire system are
 final pixel-level labeled images that can be evaluated against the
@@ -283,15 +283,15 @@ Cityscapes fine annotated data.
 :::
 
 **Method 2: Deep Neural Network** utilizes the annotation masks to train
-the model uses the architectures like RESNET50 or VGG-16 [@deeplabv2] to
+the model uses the architectures like RESNET50 or VGG-16 [14] to
 create the masks for the object instances. The latest development of
 algorithms in CNN and DL pushed to create faster and lighter
 (computational) networks which create segmentation masks. We tested the
 pre-trained neural network models of DeepLab on the Cityscapes dataset
 and compare the pixel-level segmentation performances between various
-architectures[@panoptic_deeplab_2020]. One objective was to identify any
+architectures[15]. One objective was to identify any
 performance advantages when using the transformers combined with neural
-networks. The models DeepLab[@deeplabv2] was implemented as an end to
+networks. The models DeepLab[14] was implemented as an end to
 end pre-trained neural network on Cityscapes to compare different
 architectures and seeing qualitative measure comparisons.
 
@@ -305,7 +305,7 @@ architectures and seeing qualitative measure comparisons.
     object queries, DETR reasons about the relations of the objects and
     the global image context to directly output the final set of
     predictions in parallel. Due to this parallel nature, DETR is very
-    fast and efficient[@detr].
+    fast and efficient[16].
 
 2.  **SegMyO**: It automatically extracts the segmented objects in
     images based on given bounding boxes. When provided with the
@@ -326,7 +326,7 @@ architectures and seeing qualitative measure comparisons.
     segmentation) to their closest predicted instance centers. To
     generate final panoptic segmentation, we then fuse the
     class-agnostic instance segmentation with semantic segmentation by
-    the efficient majority-vote scheme.[@panoptic_deeplab_2020]
+    the efficient majority-vote scheme.[15]
 
 4.  **Axial-DeepLab**: It incorporates the powerful axial self-attention
     modules, also known as the encoder of Axial Transformers, for
@@ -336,7 +336,7 @@ architectures and seeing qualitative measure comparisons.
     adopt the hybrid CNN-Transformer architecture, where they stack the
     effective axial-attention blocks on top of the first few stages of
     ResNets. This hybrid CNN-Transformer architecture is very effective
-    on segmentation tasks[@axial_deeplab_2020].
+    on segmentation tasks[17].
 :::
 
 ::: figure*
@@ -495,7 +495,7 @@ On the down side, the DC-5 models have a higher computation cost because
 of the higher cost associated with self-attentions of the encoders, as
 shown in Table [1](#table:Runtime){reference-type="ref"
 reference="table:Runtime"}. This observation matches with the claim made
-in the DETR paper[@detr].
+in the DETR paper[16].
 
 Taking the unorthodox way, we are trying to combine two non-related
 models and without linking them, but rather having the output of one be
@@ -593,3 +593,68 @@ S. Zagoruyko, “End-to-end object detection with transformers,” 2020.
 “Axial-DeepLab: Stand-alone axial-attention for panoptic segmenta-
 tion,” in ECCV, 2020.
 
+## References
+
+1. O. Ronneberger, P. Fischer, and T. Brox, “U-net: Convolutional
+networks for biomedical image segmentation,” in International Confer-
+ence on Medical image computing and computer-assisted intervention.
+Springer, 2015, pp. 234–241.
+2. D. Mzurikwao, M. U. Khan, O. W. Samuel, J. Cinatl, M. Wass,
+M. Michaelis, G. Marcelli, and C. S. Ang, “Towards image-based
+cancer cell lines authentication using deep neural networks,” Scientific
+reports, vol. 10, no. 1, pp. 1–15, 2020.
+3. W. Cai, Z. Xiong, X. Sun, P. L. Rosin, L. Jin, and X. Peng, “Panoptic
+segmentation-based attention for image captioning,” Applied Sciences,
+vol. 10, no. 1, p. 391, 2020.
+4. D. de Geus, P. Meletis, and G. Dubbelman, “Single network panoptic
+segmentation for street scene understanding,” in 2019 IEEE Intelligent
+Vehicles Symposium (IV). IEEE, 2019, pp. 709–715
+5. B. Cheng, M. D. Collins, Y. Zhu, T. Liu, T. S. Huang, H. Adam, and
+L.-C. Chen, “Panoptic-deeplab: A simple, strong, and fast baseline for
+bottom-up panoptic segmentation,” in Proceedings of the IEEE/CVF
+conference on computer vision and pattern recognition, 2020, pp.
+12 475–12 485.
+6. Y. Cheng, R. Lin, P. Zhen, T. Hou, C. W. Ng, H.-B. Chen, H. Yu, and
+N. Wong, “Fassst: Fast attention based single-stage segmentation net
+for real-time instance segmentation,” in Proceedings of the IEEE/CVF
+Winter Conference on Applications of Computer Vision, 2022, pp.
+2210–2218.
+7. J. Liu and H. Zhang, “Image segmentation using a local gmm in a
+variational framework,” Journal of mathematical imaging and vision,
+vol. 46, no. 2, pp. 161–176, 2013.
+8. M. Cordts, M. Omran, S. Ramos, T. Rehfeld, M. Enzweiler, R. Benenson, 
+U. Franke, S. Roth, and B. Schiele, “The cityscapes dataset
+for semantic urban scene understanding,” in Proceedings of the IEEE
+conference on computer vision and pattern recognition, 2016, pp.
+3213–3223.
+9. D. G. Lowe, “Object recognition from local scale-invariant features,”
+in Proceedings of the seventh IEEE international conference on
+computer vision, vol. 2. Ieee, 1999, pp. 1150–1157.
+10. H. Bay, T. Tuytelaars, and L. V. Gool, “Surf: Speeded up robust
+features,” in European conference on computer vision. Springer, 2006,
+pp. 404–417.
+11. N. Dalal and B. Triggs, “Histograms of oriented gradients for human
+detection,” in 2005 IEEE computer society conference on computer
+vision and pattern recognition (CVPR’05), vol. 1. Ieee, 2005, pp.
+886–893.
+12. N. Carion, F. Massa, G. Synnaeve, N. Usunier, A. Kirillov, and
+S. Zagoruyko, “End-to-end object detection with transformers,” in
+European conference on computer vision. Springer, 2020, pp. 213–
+229.
+13. R. Delearde, C. Kurtz, P. Dejean, and L. Wendling, “Segment my ´
+object: A pipeline to extract segmented objects in images based on
+labels or bounding boxes.” in VISIGRAPP (5: VISAPP), 2021, pp.
+618–625.
+14. L.-C. Chen, G. Papandreou, I. Kokkinos, K. Murphy, and A. L. Yuille,
+“Deeplab: Semantic image segmentation with deep convolutional
+nets, atrous convolution, and fully connected crfs,” 2016. [Online].
+Available: https://arxiv.org/abs/1606.00915
+15. B. Cheng, M. D. Collins, Y. Zhu, T. Liu, T. S. Huang, H. Adam, and
+L.-C. Chen, “Panoptic-DeepLab: A simple, strong, and fast baseline
+for bottom-up panoptic segmentation,” in CVPR, 2020.
+16. N. Carion, F. Massa, G. Synnaeve, N. Usunier, A. Kirillov, and
+S. Zagoruyko, “End-to-end object detection with transformers,” 2020.
+[Online]. Available: https://arxiv.org/abs/2005.12872
+17. H. Wang, Y. Zhu, B. Green, H. Adam, A. Yuille, and L.-C. Chen,
+“Axial-DeepLab: Stand-alone axial-attention for panoptic segmentation,” 
+in ECCV, 2020.
