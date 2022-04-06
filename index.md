@@ -51,7 +51,7 @@ additional penalty term and a local bias function has been used to
 segment noisy images affected by
 intensity-nonhomogeneity[7].
 
-## Cityscapes Dataset
+### Cityscapes Dataset
 
 We used the Cityscapes dataset for this project [8].
 Cityscapes is a collection of on-board vehicle data such as GPS,
@@ -83,7 +83,9 @@ provides both non-sequential and sequential images, the latter of which
 presents opportunities for cross-image clustering, image classification
 by clustering, and feature extraction.
 
-## Classical K-Means
+## Unsupervised Learning - Clustering
+
+### Classical K-Means
 
 The K-Means algorithm, described in
 Eq. [\[eq:kmeans\]](#eq:kmeans){reference-type="eqref"
@@ -106,7 +108,7 @@ reference="fig:kmeans"}.
 ![image](figures/cluster5.png){width="0.9\\columnwidth"}
 ![image](figures/cluster10.png){width="0.9\\columnwidth"}
 
-## HOG Feature Extraction
+### HOG Feature Extraction
 
 In order to reduce the dimensionality of the raw image data --
 Cityscapes image dimensions are 1024x2048x3 -- and extract relevant
@@ -219,7 +221,7 @@ need to be explored that can capture both local variations in pixel
 intensities as well as global information about which pixels belong to
 which object.
 
-## DBSCAN
+### DBSCAN
 
 Density-based spatial clustering of applications with noise (DBSCAN) is
 a clustering method that groups together closely packed points. It
@@ -253,6 +255,8 @@ using pre-processing techniques such as extracting the HOG features.
 ![](figures/DBScan_aachen.JPG){width="90%"}
 :::
 
+## Supervised Learning - Model Chaining
+
 Supervised algorithms were performed using the fine annotations of the
 Cityscapes dataset. Two methods of completing pixel-level segmentation
 were completed. In this case, multiple objects are within the images.
@@ -261,7 +265,7 @@ corresponding pixel for the object via model chaining. The second and
 more direct approach involves training on the pixel information and
 obtaining the pixel level map using deep neural network architecture.
 
-## Methods
+### Methods
 
 **Method 1: Model chaining** involved using Google Colab to input raw,
 unlabeled (n=10) Cityscapes images,
@@ -366,7 +370,7 @@ architectures and seeing qualitative measure comparisons.
     us keep on track and measure the performance of the algorithm.
 :::
 
-## Results
+### Results
 
 Definitions of the metrics used to report results in tables and images
 include:
@@ -487,7 +491,7 @@ reference="table:Runtime"}.
 ![image](figures/Image8Results.pdf){width="90%"}
 :::
 
-## Discussion
+### Discussion
 
 We observed that the DETR performance for smaller items increases with
 the DC-5 models as the resolution is increased by a factor of 2,
