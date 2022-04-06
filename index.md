@@ -102,9 +102,7 @@ the K-Means operation is shown in
 Fig. [\[fig:kmeans\]](#fig:kmeans){reference-type="ref"
 reference="fig:kmeans"}.
 
-![image](assets/images/figures/cluster_og.png)
-![image](assets/images/figures/cluster5.png)
-![image](assets/images/figures/cluster10.png)
+![image](assets/images/figures/fig1.png)
 
 ### HOG Feature Extraction
 
@@ -124,13 +122,9 @@ perform object or human detection [11]. We aim to use
 these descriptors as input to unsupervised clustering techniques and
 observe the performance on pixel-wise image segmentation.
 
-![image](assets/images/figures/elbow_plot_aachen.png)
+![image](assets/images/figures/fig2.png)
 
-![image](assets/images/figures/elbow_plot_nuremburg.png)
-
-![image](assets/images/figures/slh_coeff_aachen.png)
-
-![image](assets/images/figures/slh_coeff_nuremburg.png)
+![image](assets/images/figures/fig3.png)
 
 We now discuss the qualitative results obtained from using the K-Means
 algorithm.
@@ -168,9 +162,9 @@ Aachen and Nuremberg data exist at 10 and 4 clusters respectively.
 
 #### Qualitative Comparison and Discussion
 
-![image](assets/images/figures/aachen_test_results.png)
+![image](assets/images/figures/fig4.png)
 
-![image](assets/images/figures/nur_test_results.png)
+![image](assets/images/figures/fig5.png)
 
 Figures
 [\[fig:clusters_aachen\]](#fig:clusters_aachen){reference-type="ref"
@@ -241,7 +235,7 @@ objects around the edges of the road, the division is not as clear.
 We plan on comparing the performance of DBSCAN on the raw images against
 using pre-processing techniques such as extracting the HOG features.
 
-![](assets/images/figures/DBScan_aachen.JPG)
+![](assets/images/figures/fig6.JPG)
 
 ## Supervised Learning - Model Chaining
 
@@ -272,7 +266,7 @@ model for use with SegMyO. Predicted outputs of the entire system are
 final pixel-level labeled images that can be evaluated against the
 Cityscapes fine annotated data.
 
-![image](assets/images/figures/Image4Results.PNG)
+![image](assets/images/figures/fig7.png)
 
 **Method 2: Deep Neural Network** utilizes the annotation masks to train
 the model uses the architectures like RESNET50 or VGG-16 [14] to
@@ -330,7 +324,7 @@ architectures and seeing qualitative measure comparisons.
     on segmentation tasks[17].
 
 
-![image](assets/images/figures/deepLab_combine_images.png)
+![image](assets/images/figures/fig8.png)
 
 ### Quantitative Metrics
 
@@ -407,9 +401,9 @@ reference="table:Runtime"}.
 
 ![image](assets/images/Tables.PNG)
 
-![image](assets/images/figures/Image10Results.PNG)
+![image](assets/images/figures/fig9.png)
 
-![image](assets/images/figures/Image8Results.PNG)
+![image](assets/images/figures/fig10.png)
 
 
 ### Discussion
