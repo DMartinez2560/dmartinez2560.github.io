@@ -88,14 +88,12 @@ by clustering, and feature extraction.
 ### Classical K-Means
 
 The K-Means algorithm, described in
-Eq. [\[eq:kmeans\]](#eq:kmeans){reference-type="eqref"
-reference="eq:kmeans"} was implemented on the Cityscapes raw images to
-perform pixel-based clustering. Given a set of observations, $X$, we
-want to group the observations into $k$ sets, $S$, to minimize the
+Eq. [1] was implemented on the Cityscapes raw images to
+perform pixel-based clustering. Given a set of observations, `X`, we
+want to group the observations into `k` sets, `S`, to minimize the
 in-cluster variance by operating using the in-cluster mean, $\mu$.
 
-$$\label{eq:kmeans}
-    \text{argmin}_s \sum_{i=1}^{k} \sum_{x \in S_i} \abs{\abs{x - u_i}}^2 = \text{argmin}_s \sum_{i=1}^{k} \abs{S_i}\text{Var}S_i$$
+$$\text{argmin}_s \sum_{i=1}^{k} \sum_{x \in S_i} ||x - u_i||^2 = \text{argmin}_s \sum_{i=1}^{k} |S_i|\text{Var}S_i$$
 
 We used the \"RGB\" color-space for clustering and used a resize
 operation to reduce the dimensions of the images to be clustered from
