@@ -125,16 +125,12 @@ these descriptors as input to unsupervised clustering techniques and
 observe the performance on pixel-wise image segmentation.
 
 ![image](assets/images/figures/elbow_plot_aachen.png)
-[]{#fig:elbow_aachen label="fig:elbow_aachen"}
 
 ![image](assets/images/figures/elbow_plot_nuremburg.png)
-[]{#fig:elbow_nur label="fig:elbow_nur"}
 
 ![image](assets/images/figures/slh_coeff_aachen.png)
-[]{#fig:slh_aachen label="fig:slh_aachen"}
 
 ![image](assets/images/figures/slh_coeff_nuremburg.png)
-[]{#fig:slh_nur label="fig:slh_nur"}
 
 We now discuss the qualitative results obtained from using the K-Means
 algorithm.
