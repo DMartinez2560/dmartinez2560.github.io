@@ -34,16 +34,13 @@ Since the aforementioned algorithms are unsupervised, we are unable to predict c
 
 ### Classical K-Means
 
-The K-Means algorithm, described in Eq. 1 was implemented on the Cityscapes raw images to perform pixel-based clustering. Given a set of observations, $X$, we want to group the observations into $k$ sets, $S$, to minimize the in-cluster variance by operating using the in-cluster mean, $\mu$.
+The K-Means algorithm, described in Eq. [1] was implemented on the Cityscapes raw images to perform pixel-based clustering. Given a set of observations, `X`, wewant to group the observations into `k` sets, `S`, to minimize the in-cluster variance by operating using the in-cluster mean, <img src="https://render.githubusercontent.com/render/math?math=\mu">.
 
-$$\label{eq:kmeans}
-    \text{argmin}_s \sum_{i=1}^{k} \sum_{x \in S_i} \abs{\abs{x - u_i}}^2 = \text{argmin}_s \sum_{i=1}^{k} \abs{S_i}\text{Var}S_i$$
+![](/assets/images/figures/equation.png)
 
 We used the \"RGB\" color-space for clustering and used a resize operation to reduce the dimensions of the images to be clustered from 1024x2048x3 to a scaled pixel-wdith of 300. The a sample result set of the K-Means operation is shown in Fig. 1.
 
-![image](assets/images/figures/cluster_og.png){width="0.9\\columnwidth"}
-![image](assets/images/figures/cluster5.png){width="0.9\\columnwidth"}
-![image](assets/images/figures/cluster10.png){width="0.9\\columnwidth"}
+![image](assets/images/figures/fig1.png)
 
 ### HOG Feature Extraction
 
@@ -63,27 +60,15 @@ To extract the HOG descriptors, we choose image patches of size (16, 16) with 4 
 
 In order to determine the number of clusters, we first used the elbow method by plotting the Sum of Squares value calculated from test images versus the number of clusters. The elbow plots are shown in Fig 2. As the elbow plots did not provide any conclusive value for the ideal number of clusters, we also plotted the average silhouette coefficient of test samples for each clusters. The plots of average silhouette coefficients are shown in Fig 3. From these graphs, we find that the highest silhouette coefficients for the Aachen and Nuremberg data exist at 10 and 4 clusters respectively.
 
-![image](assets/images/figures/elbow_plot_aachen.png){width="0.9\\columnwidth"}
-[]{#fig:elbow_aachen label="fig:elbow_aachen"}
+![image](assets/images/figures/fig2.png)
 
-![image](assets/images/figures/elbow_plot_nuremburg.png){width="0.9\\columnwidth"}
-[]{#fig:elbow_nur label="fig:elbow_nur"}
-
-![image](assets/images/figures/slh_coeff_aachen.png){width="0.9\\columnwidth"}
-[]{#fig:slh_aachen label="fig:slh_aachen"}
-
-![image](assets/images/figures/slh_coeff_nuremburg.png){width="0.9\\columnwidth"}
-[]{#fig:slh_nur label="fig:slh_nur"}
+![image](assets/images/figures/fig3.png)
 
 #### Qualitative Comparison and Discussion
 
-::: figure*
-![image](assets/images/figures/aachen_test_results.png){width="90%"}
-:::
+![image](assets/images/figures/fig4.png)
 
-::: figure*
-![image](assets/images/figures/nur_test_results.png){width="90%"}
-:::
+![image](assets/images/figures/fig5.png)
 
 Figures 4 and 5 show the final segmentation masks obtained for each of the three test images taken from the Aachen and Nuremburg data. Looking at these images, we make the following observations: 
 
@@ -103,9 +88,7 @@ In Figure 6 we show the results of DBSCAN clustering on 4 images from the Aachen
 
 We plan on comparing the performance of DBSCAN on the raw images against using pre-processing techniques such as extracting the HOG features.
 
-::: figure*
-![](assets/images/figures/DBScan_aachen.JPG){width="90%"}
-:::
+![](assets/images/figures/fig6.JPG)
 
 ## Supervised Learning - Model Chaining
 
@@ -115,37 +98,72 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
 
 **Method 1: Model chaining** involved using Google Colab to input raw, unlabeled (n=10) Cityscapes images, Fig. 7A, into the DEtection TRansformer (DETR) model (pre-trained on the COCO dataset) [12]. Each of the images were from the Nuremburg dataset. Primary outputs of the model include images with bounding boxes labeled, Fig. 7B, and a list of bounding boxes. In the future, the model outputs will then be inputted into the Segment My Object (SegMyO) pipeline which takes bounding box information and applies masks to the raw image using Mask R-CNN [13]. DETR models were compared for performance and computation time to best select a model for use with SegMyO. Predicted outputs of the entire system are final pixel-level labeled images that can be evaluated against the Cityscapes fine annotated data.
 
-::: figure*
-![image](assets/images/figures/Image4Results.pdf){width="90%"}
-:::
+![image](assets/images/figures/fig7.png)
 
 **Method 2: Deep Neural Network** utilizes the annotation masks to trainthe model uses the architectures like RESNET50 or VGG-16 [14] to create the masks for the object instances. The latest development of algorithms in CNN and DL pushed to create faster and lighter (computational) networks which create segmentation masks. We tested the pre-trained neural network models of DeepLab on the Cityscapes dataset and compare the pixel-level segmentation performances between various architectures[15]. One objective was to identify any performance advantages when using the transformers combined with neural networks. The models DeepLab[14] was implemented as an end to end pre-trained neural network on Cityscapes to compare different architectures and seeing qualitative measure comparisons. 
 
 ### Model Architecture Descriptions
 
-::: enumerate
-1.  **DETR**: It approaches object detection as a direct set prediction problem. It consists of a set-based global loss, which forces unique predictions via bipartite matching, and a Transformer encoder-decoder architecture. Given a fixed small set of learned object queries, DETR reasons about the relations of the objects and the global image context to directly output the final set of predictions in parallel. Due to this parallel nature, DETR is very fast and efficient[16].
+1.  **DETR**: It approaches object detection as a direct set prediction
+    problem. It consists of a set-based global loss, which forces unique
+    predictions via bipartite matching, and a Transformer
+    encoder-decoder architecture. Given a fixed small set of learned
+    object queries, DETR reasons about the relations of the objects and
+    the global image context to directly output the final set of
+    predictions in parallel. Due to this parallel nature, DETR is very
+    fast and efficient[16].
 
-2.  **SegMyO**: It automatically extracts the segmented objects in images based on given bounding boxes. When provided with the bounding box, it looks for the output object with the best coverage, based on several geometric criteria. Associated with a semantic segmentation model trained on a similar dataset(PASCAL-VOC and COCO) this pipeline provides a simple solution to segment efficiently a dataset without requiring specific training, but also to the problem of weakly-supervised segmentation. This is particularly useful to segment public datasets available with weak object annotations coming from an algorithm (in our case DETR).
+2.  **SegMyO**: It automatically extracts the segmented objects in
+    images based on given bounding boxes. When provided with the
+    bounding box, it looks for the output object with the best coverage,
+    based on several geometric criteria. Associated with a semantic
+    segmentation model trained on a similar dataset(PASCAL-VOC and COCO)
+    this pipeline provides a simple solution to segment efficiently a
+    dataset without requiring specific training, but also to the problem
+    of weakly-supervised segmentation. This is particularly useful to
+    segment public datasets available with weak object annotations
+    coming from an algorithm (in our case DETR).
 
-3.  **Panoptic-DeepLab**: It is a state-of-the-art box-free system for panoptic segmentation, where the goal is to assign a unique value, encoding both semantic label and instance ID, to every pixel in an image. The class-agnostic instance segmentation is first obtained by grouping the predicted foreground pixels (inferred by semantic segmentation) to their closest predicted instance centers. To generate final panoptic segmentation, we then fuse the class-agnostic instance segmentation with semantic segmentation by the efficient majority-vote scheme[15].
+3.  **Panoptic-DeepLab**: It is a state-of-the-art box-free system for
+    panoptic segmentation, where the goal is to assign a unique value,
+    encoding both semantic label and instance ID, to every pixel in an
+    image. The class-agnostic instance segmentation is first obtained by
+    grouping the predicted foreground pixels (inferred by semantic
+    segmentation) to their closest predicted instance centers. To
+    generate final panoptic segmentation, we then fuse the
+    class-agnostic instance segmentation with semantic segmentation by
+    the efficient majority-vote scheme.[15]
 
-4.  **Axial-DeepLab**: It incorporates the powerful axial self-attention modules, also known as the encoder of Axial Transformers, for general dense prediction tasks. The backbone of Axial-DeepLab, called Axial-ResNet, is obtained by replacing the residual blocks in any type of ResNets with our proposed axial-attention blocks. They adopt the hybrid CNN-Transformer architecture, where they stack the effective axial-attention blocks on top of the first few stages of ResNets. This hybrid CNN-Transformer architecture is very effective on segmentation tasks[17].
-:::
+4.  **Axial-DeepLab**: It incorporates the powerful axial self-attention
+    modules, also known as the encoder of Axial Transformers, for
+    general dense prediction tasks. The backbone of Axial-DeepLab,
+    called Axial-ResNet, is obtained by replacing the residual blocks in
+    any type of ResNets with our proposed axial-attention blocks. They
+    adopt the hybrid CNN-Transformer architecture, where they stack the
+    effective axial-attention blocks on top of the first few stages of
+    ResNets. This hybrid CNN-Transformer architecture is very effective
+    on segmentation tasks[17].
 
-::: figure*
-![image](assets/images/figures/deepLab_combine_images.png){width="90%"}
-:::
+![image](assets/images/figures/fig8.png)
 
 ### Quantitative Metrics
 
-::: enumerate
-1.  **Mean Intersection over Union (mIoU)** is another method to evaluate the predictions from an image segmentation model. This is a metric that takes the IoU over all of the classes and takes the mean of them. This is a good indicator of how well an image segmentation model performs over all the classes that the model would want to detect.
+1.  **Mean Intersection over Union (mIoU)** is another method to
+    evaluate the predictions from an image segmentation model. This is a
+    metric that takes the IoU over all of the classes and takes the mean
+    of them. This is a good indicator of how well an image segmentation
+    model performs over all the classes that the model would want to
+    detect.
 
-2.  **Computational Time** is an important metric of evaluation. The age of cloud computing, the focus of researchers are moving towards accuracy, but in reality compute is still scarce and is a matter of concern. Hence we will also be looking into determining time efficient methods by using the inbuilt tools to calculate. 
+2.  **Computational Time** is an important metric of evaluation. The age
+    of cloud computing, the focus of researchers are moving towards
+    accuracy, but in reality compute is still scarce and is a matter of
+    concern. Hence we will also be looking into determining time
+    efficient methods by using the inbuilt tools to calculate.
 
-3.   **Object count** is a metric of evaluation for the object recognition algorithm used in Method 1. The simple metric can help us keep on track and measure the performance of the algorithm.
-:::
+3.  **Object count** is a metric of evaluation for the object
+    recognition algorithm used in Method 1. The simple metric can help
+    us keep on track and measure the performance of the algorithm.
 
 ### Results
 
@@ -169,73 +187,12 @@ Fig 7, 8, and 9 help us qualitatively understand the impact of the DETR algorith
 
 Tables I, II, and III help us see which RESNET model is better and the comparison of the architecture helps us better to make the network better with latest additions. A relatively constant duration of about 0.7 seconds was found across each DETR model based on the difference between Total Time and Model Time in Table I.
 
-::: center
-::: {#table:Runtime}
-       Model        Total Run Time   Model Run Time
-  ---------------- ---------------- ----------------
-     Resnet 101         9.459            8.756
-   Resnet 101-DC5       20.445           19.744
-   Resnet 50-DC5        18.169           17.467
-     Resnet 50          6.359            5.655
+![image](assets/images/Tables.PNG)
 
-  : Mean Run time per Image Iteration for Each DETR Architecture
-:::
+![image](assets/images/figures/fig9.png)
 
-[]{#table:Runtime label="table:Runtime"}
-:::
+![image](assets/images/figures/fig10.png)
 
-::: center
-::: {#table:scores}
-       Model        Mean Score   Mean Score Per Car
-  ---------------- ------------ --------------------
-     Resnet 101       0.971            0.973
-   Resnet 101-DC5     0.975            0.977
-   Resnet 50-DC5      0.972            0.975
-     Resnet 50        0.972            0.974
-
-  : Mean Confidence Scores by Each DETR Architecture
-:::
-
-[]{#table:scores label="table:scores"}
-:::
-
-::: center
-::: {#table:itemCount}
-       Model        Cars Labeled   Items Labeled
-  ---------------- -------------- ---------------
-     Resnet 101         126             185
-   Resnet 101-DC5       133             190
-   Resnet 50-DC5        134             202
-     Resnet 50          121             184
-
-  : Number of Objects Labeled by Each DETR Architecture
-:::
-
-[]{#table:itemCount label="table:itemCount"}
-:::
-
-::: center
-::: {#table:deepLabmIoU}
-   Images    Panoptic-DeepLab   Axial-DeepLab
-  --------- ------------------ ---------------
-   Image 1        0.9364           0.9393
-   Image 2        0.9348           0.9307
-   Image 3        0.9271           0.9208
-   Image 4        0.9133           0.9240
-
-  : mIoU for DeepLab Models
-:::
-
-[]{#table:deepLabmIoU label="table:deepLabmIoU"}
-:::
-
-::: figure*
-![image](assets/images/figures/Image10Results.pdf){width="90%"}
-:::
-
-::: figure*
-![image](assets/images/figures/Image8Results.pdf){width="90%"}
-:::
 
 ### Discussion
 
