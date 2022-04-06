@@ -91,7 +91,7 @@ The K-Means algorithm, described in
 Eq. [1] was implemented on the Cityscapes raw images to
 perform pixel-based clustering. Given a set of observations, `X`, we
 want to group the observations into `k` sets, `S`, to minimize the
-in-cluster variance by operating using the in-cluster mean, $\mu$.
+in-cluster variance by operating using the in-cluster mean, <img src="https://render.githubusercontent.com/render/math?math=\mu">.
 
 ![](/assets/images/figures/equation.png)
 
