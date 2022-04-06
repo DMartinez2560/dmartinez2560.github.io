@@ -93,7 +93,7 @@ perform pixel-based clustering. Given a set of observations, `X`, we
 want to group the observations into `k` sets, `S`, to minimize the
 in-cluster variance by operating using the in-cluster mean, $\mu$.
 
-![image](figures/equation.png){width="0.9\\columnwidth"}
+![](/assets/images/figures/equation.png)
 
 We used the \"RGB\" color-space for clustering and used a resize
 operation to reduce the dimensions of the images to be clustered from
