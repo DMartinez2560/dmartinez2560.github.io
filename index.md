@@ -1,6 +1,7 @@
 ## Comparing Unsupervised and Supervised Techniques for Instance-level Segmentation: Cityscapes Dataset
 ### Heriberto A Nieves, Daniel Enrique Martinez, Juan Diego Florez-Castillo, Kartik Ramachandruni, Vivek Mallampati 
 
+#### Introduction
 Image segmentation is the task of identifying individual objects in the image based on class, occurrence, and whether they lie in the foreground or background. Our project explores instance segmentation, which combines object detection and semantic segmentation for foreground objects. Instance segmentation provides us with the necessary information about the scene – the class of each object, the frequency of each class, and pixel-level segmentation masks of objects—the diverse range of information that instance segmentation outputs, thus making the task a challenging problem-solving.  
 
 Numerous real-world applications to instance segmentation make it a critical research problem. For example, the biomedical community relies on deep learning techniques to identify distinct types of cells in electron microscopy images<sup>[1]</sup> or CT scans of cancer patients<sup>[2]</sup>. Instance segmentation is also a crucial component for scene understanding for applications such as image captioning<sup>[3]</sup>. In addition, segmentation techniques help autonomous navigation services distinguish between pedestrians, vehicles, traffic symbols, and background objects and identify subclasses of these objects<sup>[4]</sup>. Therefore, instance segmentation is a crucial component of many real-world vision systems. 
