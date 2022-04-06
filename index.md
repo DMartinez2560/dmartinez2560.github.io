@@ -104,9 +104,9 @@ the K-Means operation is shown in
 Fig. [\[fig:kmeans\]](#fig:kmeans){reference-type="ref"
 reference="fig:kmeans"}.
 
-![image](assets/images/figures/cluster_og.png){width="0.9\\columnwidth"}
-![image](assets/images/figures/cluster5.png){width="0.9\\columnwidth"}
-![image](assets/images/figures/cluster10.png){width="0.9\\columnwidth"}
+![image](assets/images/figures/cluster_og.png)
+![image](assets/images/figures/cluster5.png)
+![image](assets/images/figures/cluster10.png)
 
 ### HOG Feature Extraction
 
@@ -126,16 +126,16 @@ perform object or human detection [11]. We aim to use
 these descriptors as input to unsupervised clustering techniques and
 observe the performance on pixel-wise image segmentation.
 
-![image](assets/images/figures/elbow_plot_aachen.png){width="0.9\\columnwidth"}
+![image](assets/images/figures/elbow_plot_aachen.png)
 []{#fig:elbow_aachen label="fig:elbow_aachen"}
 
-![image](assets/images/figures/elbow_plot_nuremburg.png){width="0.9\\columnwidth"}
+![image](assets/images/figures/elbow_plot_nuremburg.png)
 []{#fig:elbow_nur label="fig:elbow_nur"}
 
-![image](assets/images/figures/slh_coeff_aachen.png){width="0.9\\columnwidth"}
+![image](assets/images/figures/slh_coeff_aachen.png)
 []{#fig:slh_aachen label="fig:slh_aachen"}
 
-![image](assets/images/figures/slh_coeff_nuremburg.png){width="0.9\\columnwidth"}
+![image](assets/images/figures/slh_coeff_nuremburg.png)
 []{#fig:slh_nur label="fig:slh_nur"}
 
 We now discuss the qualitative results obtained from using the K-Means
@@ -175,11 +175,11 @@ Aachen and Nuremberg data exist at 10 and 4 clusters respectively.
 #### Qualitative Comparison and Discussion
 
 ::: figure*
-![image](assets/images/figures/aachen_test_results.png){width="90%"}
+![image](assets/images/figures/aachen_test_results.png)
 :::
 
 ::: figure*
-![image](assets/images/figures/nur_test_results.png){width="90%"}
+![image](assets/images/figures/nur_test_results.png)
 :::
 
 Figures
@@ -252,7 +252,7 @@ We plan on comparing the performance of DBSCAN on the raw images against
 using pre-processing techniques such as extracting the HOG features.
 
 ::: figure*
-![](assets/images/figures/DBScan_aachen.JPG){width="90%"}
+![](assets/images/figures/DBScan_aachen.JPG)
 :::
 
 ## Supervised Learning - Model Chaining
@@ -285,7 +285,7 @@ final pixel-level labeled images that can be evaluated against the
 Cityscapes fine annotated data.
 
 ::: figure*
-![image](assets/images/figures/Image4Results.pdf){width="90%"}
+![image](assets/images/figures/Image4Results.pdf)
 :::
 
 **Method 2: Deep Neural Network** utilizes the annotation masks to train
@@ -346,7 +346,7 @@ architectures and seeing qualitative measure comparisons.
 :::
 
 ::: figure*
-![image](assets/images/figures/deepLab_combine_images.png){width="90%"}
+![image](assets/images/figures/deepLab_combine_images.png)
 :::
 
 ### Quantitative Metrics
@@ -423,73 +423,15 @@ across each DETR model based on the difference between Total Time and
 Model Time in [1](#table:Runtime){reference-type="ref"
 reference="table:Runtime"}.
 
-::: center
-::: {#table:Runtime}
-       Model        Total Run Time   Model Run Time
-  ---------------- ---------------- ----------------
-     Resnet 101         9.459            8.756
-   Resnet 101-DC5       20.445           19.744
-   Resnet 50-DC5        18.169           17.467
-     Resnet 50          6.359            5.655
+![image](assets/images/Tables.PNG)
 
-  : Mean Run time per Image Iteration for Each DETR Architecture
-:::
 
-[]{#table:Runtime label="table:Runtime"}
-:::
 
-::: center
-::: {#table:scores}
-       Model        Mean Score   Mean Score Per Car
-  ---------------- ------------ --------------------
-     Resnet 101       0.971            0.973
-   Resnet 101-DC5     0.975            0.977
-   Resnet 50-DC5      0.972            0.975
-     Resnet 50        0.972            0.974
 
-  : Mean Confidence Scores by Each DETR Architecture
-:::
+![image](assets/images/figures/Image10Results.pdf)
 
-[]{#table:scores label="table:scores"}
-:::
+![image](assets/images/figures/Image8Results.pdf)
 
-::: center
-::: {#table:itemCount}
-       Model        Cars Labeled   Items Labeled
-  ---------------- -------------- ---------------
-     Resnet 101         126             185
-   Resnet 101-DC5       133             190
-   Resnet 50-DC5        134             202
-     Resnet 50          121             184
-
-  : Number of Objects Labeled by Each DETR Architecture
-:::
-
-[]{#table:itemCount label="table:itemCount"}
-:::
-
-::: center
-::: {#table:deepLabmIoU}
-   Images    Panoptic-DeepLab   Axial-DeepLab
-  --------- ------------------ ---------------
-   Image 1        0.9364           0.9393
-   Image 2        0.9348           0.9307
-   Image 3        0.9271           0.9208
-   Image 4        0.9133           0.9240
-
-  : mIoU for DeepLab Models
-:::
-
-[]{#table:deepLabmIoU label="table:deepLabmIoU"}
-:::
-
-::: figure*
-![image](assets/images/figures/Image10Results.pdf){width="90%"}
-:::
-
-::: figure*
-![image](assets/images/figures/Image8Results.pdf){width="90%"}
-:::
 
 ### Discussion
 
