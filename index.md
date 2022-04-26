@@ -205,6 +205,13 @@ We plan on comparing the performance of DBSCAN for object segmentation against K
 ![image](assets/images/figures/fig6.png)
 
 
+## Informing Supervised Object Detection using Unsupervised Clustering Techniques
+The above sections discuss the individual unsupervised and supervised learning methods we investigated in this project. One key observation we derived from the qualitative unsupervised results is that the standalone clustering techniques we adopted were insufficient for the task of pixel-level segmentation. However, the clustering techniques were able to separate some entities in the image with low/moderate accuracy. We now investigate whether the information extracted by unsupervised clustering can be used to inform the supervised object detection method and possibly improve its performance.
+
+We provide a qualitative comparison of whether using the clustered images from KMeans and DBSCAN would affect the object detection performance of the DETR model. For this comparison, we chose the KMeans clustering technique described in section (#FIRST KMEANS SECTION) with a k value of 5 and the DBSCAN clustering used in section (#DBSCAN SECTION). We compare the following techniques: 1) DETR-RAW: Raw images are sent to the DETR object detector, 2) DETR-KMeans: Raw images are first clustered in the pixel space using KMeans clustering and the resulting clustered image is sent to the DETR object detector and 3) DETR-DBSCAN: Raw images are first clustered in the pixel space using DBSCAN clustering and the resulting clustered image is sent to the DETR object detector.
+
+As the cityscapes dataset only has annotations for pixel-level segmentation, we used the pixel annotations to generate our own bounding boxes by drawing the smallest box around an object that encloses all pixels of the desired object. We then calculate the mean Intersection over Union (IOU) for each image as such: given a ground truth label and bounding box within an image, we find the prediction with the same predicted label and the highest IOU value. The IOU of a single image is obtained by averaging over the IOU values of all objects in the ground truth, and the mean IOU is the average IOU of all images in the test dataset. The following subsection presents a discussion of the results obtained from this comparison.
+
 ## References
 1. O. Ronneberger, P. Fischer, and T. Brox, “U-net: Convolutional
 networks for biomedical image segmentation,” in International Confer-
