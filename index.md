@@ -200,7 +200,7 @@ Density-based spatial clustering of applications with noise (DBSCAN) is a cluste
 
 In Figure 6 we show the results of DBSCAN clustering on 4 images from the Aachen data set. The clustering seems to separate the road in the images from the background objects. This is likely due to the large size of the road in the frame and it's uniformity in color making it easy to segment. The background has a lot of features and varying objects which all get grouped together as high density. Where the road is more clearly defined by borders and medians, the edges of the cluster of the road is preserved very well. In the images with more objects around the edges of the road, the division is not as clear.
 
-We plan on comparing the performance of DBSCAN on the raw images against using pre-processing techniques such as extracting the HOG features.
+We plan on comparing the performance of DBSCAN for object segmentation against Kmeans clustering and the raw images.
 
 ![image](assets/images/figures/fig6.png)
 
