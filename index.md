@@ -88,7 +88,7 @@ In Figure 6 we show the results of DBSCAN clustering on 4 images from the Aachen
 
 We plan on comparing the performance of DBSCAN on the raw images against using pre-processing techniques such as extracting the HOG features.
 
-![](assets/images/figures/fig6.JPG)
+![image](assets/images/figures/fig6.png)
 
 ## Supervised Learning - Model Chaining
 
