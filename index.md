@@ -30,66 +30,6 @@ For our project, we implemented the K-Means and DBSCAN algorithms to perform pix
 
 Since the aforementioned algorithms are unsupervised, we are unable to predict class labels for individual objects in the image. Instead, the objective of using these methods is to explore how traditional feature extraction combined with data-efficient clustering techniques performs on a complex image segmentation data sets such as Cityscapes. Cityscapes provides both non-sequential and sequential images, the latter of which presents opportunities for cross-image clustering, image classification by clustering, and feature extraction.
 
-## Unsupervised Learning - Clustering
-
-### Classical K-Means
-
-The K-Means algorithm, described in Eq. [1] was implemented on the Cityscapes raw images to perform pixel-based clustering. Given a set of observations, `X`, wewant to group the observations into `k` sets, `S`, to minimize the in-cluster variance by operating using the in-cluster mean, <img src="https://render.githubusercontent.com/render/math?math=\mu">.
-
-![](/assets/images/figures/equation.png)
-
-We used the \"RGB\" color-space for clustering and used a resize operation to reduce the dimensions of the images to be clustered from 1024x2048x3 to a scaled pixel-wdith of 300. The a sample result set of the K-Means operation is shown in Fig. 1.
-
-![image](assets/images/figures/fig1.png)
-
-### HOG Feature Extraction
-
-In order to reduce the dimensionality of the raw image data -- Cityscapes image dimensions are 1024x2048x3 -- and extract relevant feature representations from the images, we chose to generate a 'Histogram of Oriented Gradients', or HOG, descriptor for each image patch in the image. A HOG descriptor is a histogram of the image gradient orientation calculated from a localized image patch.
-
-HOGs are popular image descriptors used to match key-points between images. They are more commonly used to generate features such as SIFT [9] and SURF [10]. HOG descriptors are also used in object detection methods by using these image descriptors along with supervised learning algorithms such as Support Vector Machines to perform object or human detection [11]. We aim to use these descriptors as input to unsupervised clustering techniques and observe the performance on pixel-wise image segmentation.
-
-We now discuss the qualitative results obtained from using the K-Means algorithm.
-
-#### HOG Features with K-Means
-
-For the K-Means clustering method with HOG features, we selected the data of two cities to evaluate -- Aachen and Nuremberg. For each city, we selected 10 images to train the clustering algorithm and test on 3 images.
-
-Prior to extracting HOG features, we convert the image to gray-scale and perform canny edge detection on the image. We observed a significant improvement in the quality of segmentation with these pre-processing techniques as well as a reduction in the Sum of Squares value for the same number of clusters.
-
-To extract the HOG descriptors, we choose image patches of size (16, 16) with 4 cells in each image patch. We then generate a gradient histogram of 32 bins for each cell, resulting in a 128-length descriptor for each image patch. We also resize the image from 1024x2048 to 360x720 to reduce the computational cost of segmentation.
-
-In order to determine the number of clusters, we first used the elbow method by plotting the Sum of Squares value calculated from test images versus the number of clusters. The elbow plots are shown in Fig 2. As the elbow plots did not provide any conclusive value for the ideal number of clusters, we also plotted the average silhouette coefficient of test samples for each clusters. The plots of average silhouette coefficients are shown in Fig 3. From these graphs, we find that the highest silhouette coefficients for the Aachen and Nuremberg data exist at 10 and 4 clusters respectively.
-
-![image](assets/images/figures/fig2.png)
-
-![image](assets/images/figures/fig3.png)
-
-#### Qualitative Comparison and Discussion
-
-![image](assets/images/figures/fig4.png)
-
-![image](assets/images/figures/fig5.png)
-
-Figures 4 and 5 show the final segmentation masks obtained for each of the three test images taken from the Aachen and Nuremburg data. Looking at these images, we make the following observations: 
-
-1.  The segmentation masks are very sensitive to edges and corners in the image. This is especially prominent in the Aachen images, where surface markings on the road are being separated from the road. This is mainly because the gradient of an image is very high at edges, corners and other sharp changes in image intensity due to which they tend to overpower the image descriptor.
-
-2.  A consequence of the previous point is that cars that appear close together are merged with the background, particularly in the Nuremburg images. Objects appearing close to each other will not have a solid boundary around them. Therefore, the gradient of the image at that point is not strong enough for the clustering algorithm to separate the two objects from themselves and the algorithm instead combines that object with the background buildings.
-
-3.  The segmentation masks make an effort to separate objects closer to the camera from the background in a few instances. For example, in the Nuremburg images, the road and nearby trees are distinctly separate from faraway cars and buildings. A possible application of this feature could be to use this kind of clustering to perform foreground extraction in images.
-
-To summarize, we believe that performing unsupervised clustering either directly on the raw RGB images or on image descriptors, like HOG, is insufficient to perform meaningful pixel-level segmentation. To extend this approach, other low-dimensional feature representations of images need to be explored that can capture both local variations in pixel intensities as well as global information about which pixels belong to which object.
-
-### DBSCAN
-
-Density-based spatial clustering of applications with noise (DBSCAN) is a clustering method that groups together closely packed points. It divides points into three categories: core points, border points, and outliers. The clustering is based on two main parameters: Eps and MinPoints. Eps is the distance from a point for which the algorithm looks for nearby points to evaluate the density and MinPoints is the threshold for the number of points in the range defined by Eps necessary to mark a point as high or low density. Core points have more than the defined number of points in their neighborhood. Border points have less points than defined in their neighborhood but are in the neighborhood of a core point. Outliers are points that aren't core points or border points. Core points serve as the interior of clusters and border points as the edges of clusters.
-
-In Figure 6 we show the results of DBSCAN clustering on 4 images from the Aachen data set. The clustering seems to separate the road in the images from the background objects. This is likely due to the large size of the road in the frame and it's uniformity in color making it easy to segment. The background has a lot of features and varying objects which all get grouped together as high density. Where the road is more clearly defined by borders and medians, the edges of the cluster of the road is preserved very well. In the images with more objects around the edges of the road, the division is not as clear.
-
-We plan on comparing the performance of DBSCAN on the raw images against using pre-processing techniques such as extracting the HOG features.
-
-![image](assets/images/figures/fig6.png)
-
 ## Supervised Learning - Model Chaining
 
 Supervised algorithms were performed using the fine annotations of the Cityscapes dataset. Two methods of completing pixel-level segmentation were completed. In this case, multiple objects are within the images. The first approach entails identifying the objects and finding the corresponding pixel for the object via model chaining. The second and more direct approach involves training on the pixel information and obtaining the pixel level map using deep neural network architecture. 
@@ -203,6 +143,67 @@ Taking the unorthodox way, we are trying to combine two non-related models and w
 Future work will involve comparing the DETR models against each other image by image using all the metrics and also further qualitative analysis. This will aid in determining missed or incorrect labels. Due to its high score, relative items labeled count, and low computation time, the Resnet 50 model appears favorable for chaining with SegMyO. With that said, a final decision will be made upon the completion of the further analyses.
 
 DeepLab results, Fig. 8, clearly shows that the model is successful qualitatively and Table IV shows that the model is successful quantitatively, on average. The discussion for the DeepLab is between using different architectures. The RESNET-50 being backbone is a rather famous architecture, but we also extend our implementation to use the axial-transformers combined with ResNets. We are planning to run the model on the total validation dataset and complete the analysis on the DeepLab models trained on Cityscapes.
+
+## Unsupervised Learning - Clustering
+
+### Classical K-Means
+
+The K-Means algorithm, described in Eq. [1] was implemented on the Cityscapes raw images to perform pixel-based clustering. Given a set of observations, `X`, wewant to group the observations into `k` sets, `S`, to minimize the in-cluster variance by operating using the in-cluster mean, <img src="https://render.githubusercontent.com/render/math?math=\mu">.
+
+![](/assets/images/figures/equation.png)
+
+We used the \"RGB\" color-space for clustering and used a resize operation to reduce the dimensions of the images to be clustered from 1024x2048x3 to a scaled pixel-wdith of 300. The a sample result set of the K-Means operation is shown in Fig. 1.
+
+![image](assets/images/figures/fig1.png)
+
+### HOG Feature Extraction
+
+In order to reduce the dimensionality of the raw image data -- Cityscapes image dimensions are 1024x2048x3 -- and extract relevant feature representations from the images, we chose to generate a 'Histogram of Oriented Gradients', or HOG, descriptor for each image patch in the image. A HOG descriptor is a histogram of the image gradient orientation calculated from a localized image patch.
+
+HOGs are popular image descriptors used to match key-points between images. They are more commonly used to generate features such as SIFT [9] and SURF [10]. HOG descriptors are also used in object detection methods by using these image descriptors along with supervised learning algorithms such as Support Vector Machines to perform object or human detection [11]. We aim to use these descriptors as input to unsupervised clustering techniques and observe the performance on pixel-wise image segmentation.
+
+We now discuss the qualitative results obtained from using the K-Means algorithm.
+
+#### HOG Features with K-Means
+
+For the K-Means clustering method with HOG features, we selected the data of two cities to evaluate -- Aachen and Nuremberg. For each city, we selected 10 images to train the clustering algorithm and test on 3 images.
+
+Prior to extracting HOG features, we convert the image to gray-scale and perform canny edge detection on the image. We observed a significant improvement in the quality of segmentation with these pre-processing techniques as well as a reduction in the Sum of Squares value for the same number of clusters.
+
+To extract the HOG descriptors, we choose image patches of size (16, 16) with 4 cells in each image patch. We then generate a gradient histogram of 32 bins for each cell, resulting in a 128-length descriptor for each image patch. We also resize the image from 1024x2048 to 360x720 to reduce the computational cost of segmentation.
+
+In order to determine the number of clusters, we first used the elbow method by plotting the Sum of Squares value calculated from test images versus the number of clusters. The elbow plots are shown in Fig 2. As the elbow plots did not provide any conclusive value for the ideal number of clusters, we also plotted the average silhouette coefficient of test samples for each clusters. The plots of average silhouette coefficients are shown in Fig 3. From these graphs, we find that the highest silhouette coefficients for the Aachen and Nuremberg data exist at 10 and 4 clusters respectively.
+
+![image](assets/images/figures/fig2.png)
+
+![image](assets/images/figures/fig3.png)
+
+#### Qualitative Comparison and Discussion
+
+![image](assets/images/figures/fig4.png)
+
+![image](assets/images/figures/fig5.png)
+
+Figures 4 and 5 show the final segmentation masks obtained for each of the three test images taken from the Aachen and Nuremburg data. Looking at these images, we make the following observations: 
+
+1.  The segmentation masks are very sensitive to edges and corners in the image. This is especially prominent in the Aachen images, where surface markings on the road are being separated from the road. This is mainly because the gradient of an image is very high at edges, corners and other sharp changes in image intensity due to which they tend to overpower the image descriptor.
+
+2.  A consequence of the previous point is that cars that appear close together are merged with the background, particularly in the Nuremburg images. Objects appearing close to each other will not have a solid boundary around them. Therefore, the gradient of the image at that point is not strong enough for the clustering algorithm to separate the two objects from themselves and the algorithm instead combines that object with the background buildings.
+
+3.  The segmentation masks make an effort to separate objects closer to the camera from the background in a few instances. For example, in the Nuremburg images, the road and nearby trees are distinctly separate from faraway cars and buildings. A possible application of this feature could be to use this kind of clustering to perform foreground extraction in images.
+
+To summarize, we believe that performing unsupervised clustering either directly on the raw RGB images or on image descriptors, like HOG, is insufficient to perform meaningful pixel-level segmentation. To extend this approach, other low-dimensional feature representations of images need to be explored that can capture both local variations in pixel intensities as well as global information about which pixels belong to which object.
+
+### DBSCAN
+
+Density-based spatial clustering of applications with noise (DBSCAN) is a clustering method that groups together closely packed points. It divides points into three categories: core points, border points, and outliers. The clustering is based on two main parameters: Eps and MinPoints. Eps is the distance from a point for which the algorithm looks for nearby points to evaluate the density and MinPoints is the threshold for the number of points in the range defined by Eps necessary to mark a point as high or low density. Core points have more than the defined number of points in their neighborhood. Border points have less points than defined in their neighborhood but are in the neighborhood of a core point. Outliers are points that aren't core points or border points. Core points serve as the interior of clusters and border points as the edges of clusters.
+
+In Figure 6 we show the results of DBSCAN clustering on 4 images from the Aachen data set. The clustering seems to separate the road in the images from the background objects. This is likely due to the large size of the road in the frame and it's uniformity in color making it easy to segment. The background has a lot of features and varying objects which all get grouped together as high density. Where the road is more clearly defined by borders and medians, the edges of the cluster of the road is preserved very well. In the images with more objects around the edges of the road, the division is not as clear.
+
+We plan on comparing the performance of DBSCAN on the raw images against using pre-processing techniques such as extracting the HOG features.
+
+![image](assets/images/figures/fig6.png)
+
 
 ## References
 1. O. Ronneberger, P. Fischer, and T. Brox, “U-net: Convolutional
