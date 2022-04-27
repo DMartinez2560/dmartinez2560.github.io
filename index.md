@@ -238,6 +238,9 @@ These trends are made clear in Table (#TABLE MIOU UNSUP). Mean IOU decreases as 
 
 ![image](assets/images/figures/miou_unsup.jpg)
 
+## Conclusion
+Object detection and instance segmentation are relevant and interesting problems to solve for autonomous navigation in urban environments. By applying supervised and unsupervised learning methods to image data, meaningful conclusions about the vehicles surroundings can be made and subsequently used to inform autonomous driving decisions. Our work applied five different learning methods to images from the Cityscapes dataset to test their effectiveness at extracting meaningful information from an urban environment. We used... and found that...
+
 ## References
 1. O. Ronneberger, P. Fischer, and T. Brox, “U-net: Convolutional
 networks for biomedical image segmentation,” in International Confer-
