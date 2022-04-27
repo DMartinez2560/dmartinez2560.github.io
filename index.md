@@ -53,6 +53,8 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
     predictions in parallel. Due to this parallel nature, DETR is very
     fast and efficient[16].
 
+    DETR uses ResNet as the intial neural network to extraac the image features. Then the image features are inputted it into the transformer which will give the bounding boxes for the recognized objects.
+
 ![image](final_project_images_tables/architecture1.png)
 
 2.  **SegMyO**: It automatically extracts the segmented objects in
@@ -76,6 +78,8 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
     class-agnostic instance segmentation with semantic segmentation by
     the efficient majority-vote scheme.[15]
 
+    Panoptic-DeepLab adopts dual-context and dual-decoder modules for semantic segmentation and instance segmentation predictions. We apply atrous convolution in the last block of a network backbone to extract denser feature map. The Atrous Spatial Pyramid Pooling (ASPP) is employed in the context module as well as a light-weight decoder module consisting of a single convolution during each upsampling stage. The instance segmentation prediction is obtained by predicting the object centers and regressing every foreground pixel (i.e., pixels with predicted ‘thing‘ class) to their corresponding center. The predicted semantic segmentation and class-agnostic instance segmentation are then fused to generate the final panoptic segmentation result by the ”majority vote” proposed by DeeperLab.[12]   
+
 ![image](final_project_images_tables/architecture3.png)
 
 4.  **Axial-DeepLab**: It incorporates the powerful axial self-attention
@@ -87,6 +91,8 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
     effective axial-attention blocks on top of the first few stages of
     ResNets. This hybrid CNN-Transformer architecture is very effective
     on segmentation tasks[17].
+
+    An axial-attention block (Figure \ref{fig:axialarchitecture}) consists of two position-sensitive axial-attention layers operating along height- and width-axis sequentially. In the model we use, we have Full axial-attention block back-boned with ResNet50 to give better performance.
 
     ![image](final_project_images_tables/architecture2.png)
 
