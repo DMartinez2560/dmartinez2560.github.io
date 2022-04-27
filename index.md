@@ -36,7 +36,7 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
 
 ### Methods
 
-**Method 1: Model chaining** involved using Google Colab to input raw, unlabeled (n=10) Cityscapes images, Fig. 7A, into the DEtection TRansformer (DETR) model (pre-trained on the COCO dataset) [12]. Each of the images were from the Nuremburg dataset. Primary outputs of the model include images with bounding boxes labeled, Fig. 7B, and a list of bounding boxes. In the future, the model outputs will then be inputted into the Segment My Object (SegMyO) pipeline which takes bounding box information and applies masks to the raw image using Mask R-CNN [13]. DETR models were compared for performance and computation time to best select a model for use with SegMyO. Predicted outputs of the entire system are final pixel-level labeled images that can be evaluated against the Cityscapes fine annotated data.
+**Method 1: Model chaining** involved using Google Colab to input raw, unlabeled (n=10) Cityscapes images, Fig. 7A, into the DEtection TRansformer (DETR) model (pre-trained on the COCO dataset) [12]. Each of the images were from the Nuremburg dataset. Primary outputs of the model include images with bounding boxes labeled, Fig. 7B, and a list of bounding boxes. DETR models were compared for performance and computation time to best select a model for use with the Segment My Object (SegMyO) pipeline. Based on Tables (##### of runtime and counts and scores) (which will be described later), the RESNET101-DC5 was selected. The architecture performed similar to that of the others, and has a greater resolution [12]. The model outputs were then inputted into the SegMyO which takes bounding box information and applies masks to the raw image using Mask R-CNN [13]. The entire model chain was completed for a total of 9 images from the Frankfurt dataset. A binary instance-level mask was outputted for each image and compared to the instance IDs provided by Cityscapes. The metric for this comparison was mIoU. 
 
 ![image](assets/images/figures/fig7.png)
 
@@ -62,7 +62,7 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
     dataset without requiring specific training, but also to the problem
     of weakly-supervised segmentation. This is particularly useful to
     segment public datasets available with weak object annotations
-    coming from an algorithm (in our case DETR).
+    coming from an algorithm (in our case DETR). Our implementation of the SegMyO model uses Mask R-CNN for segmenting the image in the bounding box, and the SegMyO algorithm chooses the mask of the main detected object neglecting the noise.
 
 3.  **Panoptic-DeepLab**: It is a state-of-the-art box-free system for
     panoptic segmentation, where the goal is to assign a unique value,
@@ -105,6 +105,10 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
     recognition algorithm used in Method 1. The simple metric can help
     us keep on track and measure the performance of the algorithm.
 
+### Metric Implementation
+1. **SegMyO mIoU:** To calculate mIoU for the SegMyO, we used the ground truth images of Cityscapes "instanceIDImages" which have the instances in a mask. The challenge is the difference in the label IDs because the SegMyO algorithm was using a COCO training and the instances were stitched sequentially. We converted both the ground truth and the mask we got from SegMyO into binary masks (instance is 1, background is 0). Once we got both the masks, we calculated the mIoU to evaluate the images. Table (SegMyO mIoU) shows the values. The average mIoU is around 0.713 which means that most of the instances are being identified and the mask generated is close the actual ground truth. 
+2. **DeepLab mIoU:**  To calculate mIoU for the DeepLab, we used the ground truth panoptic images of Cityscapes which have the labelled mask. Having both the masks, we calculated the mIoU to evaluate the images.  Table (DeepLabmIoU) shows the values. The average mIoU is around 0.79 which means that most of the instances are being identified and the mask generated is close the actual ground truth.
+
 ### Results
 
 Definitions of the metrics used to report results in tables and images include:
@@ -121,11 +125,17 @@ Definitions of the metrics used to report results in tables and images include:
 
 6.  Items Labeled refers to the number of items labeled in the image.
 
-Fig 8 shows that DeepLab identifies all the semantic classes and all instances(additionally). Table IV shows that both Panoptic and Axial algorithms give an mIoU greater than 0.9 for Aachen dataset. Few of the images perform slightly better for Panoptic and others for Axial. We need to do more extensive testing on the total validation dataset to give a greater sense of impact of algorithms on data. Few features like small objects can be better recognized in few architecture than others.
-
 Fig 7, 8, and 9 help us qualitatively understand the impact of the DETR algorithm. The bounding boxes help recognize the objects in the Cityscapes dataset. This is particularly interesting as DETR was trained on COCO dataset and has not been trained on Cityscapes data before running it on validation. Only items identified by the DETR algorithms with confidence scores of 0.9 or above were kept.
 
-Tables I, II, and III help us see which RESNET model is better and the comparison of the architecture helps us better to make the network better with latest additions. A relatively constant duration of about 0.7 seconds was found across each DETR model based on the difference between Total Time and Model Time in Table I.
+Tables I, II, and III help us see which RESNET model is best and the comparison of the architecture helps us to make the best network with latest additions. A relatively constant duration of about 0.7 seconds was found across each DETR model based on the difference between Total Time and Model Time in Table I.
+
+Fig XX provides an example of the SegMyO process run on a Frankfurt image. Each instance formed its own mask and was then stitched together into the Combined Mask. From here, a binary mask was created and overlayed on the original image to show which objects were segmented. 
+
+Fig 8 shows that DeepLab identifies all the semantic classes and all instances(additionally). Table IV shows that both Panoptic and Axial algorithms give an mIoU greater than 0.9 for Aachen dataset. Few of the images perform slightly better for Panoptic and others for Axial. We need to do more extensive testing on the total validation dataset to give a greater sense of impact of algorithms on data. Few features like small objects can be better recognized in few architecture than others.
+
+Qualitative analysis was performed on each of the Frankfurt images that was inputted into the Model chain. Figs XYZ show that multiple instances were detected by the DETR model and were then segmented by SegMyO. Segmented instances range from cars, trucks, people, potted plants, benches, backpacks, and clocks. Labels associated with the instances were incorrect less than 5 times (i.e., a streetlight mislabeled as a TV). Instance IDs from the Cityscapes dataset were compared against the SegMyO outputs and an average mIoU of 0.70638 was found across all the images.
+
+Fig Z compares the two supervised models and their respective overlays. It its important to note that the model chain resulted in an instance mask and the DeepLab model resulted in a panoptic mask.
 
 ![image](assets/images/Tables.PNG)
 
@@ -133,17 +143,26 @@ Tables I, II, and III help us see which RESNET model is better and the compariso
 
 ![image](assets/images/figures/fig10.png)
 
+Add Comparison of Models fig
+
 
 ### Discussion
 
 We observed that the DETR performance for smaller items increases with the DC-5 models as the resolution is increased by a factor of 2, correlating with increases in Items Labeled in Table III. On the down side, the DC-5 models have a higher computation cost because of the higher cost associated with self-attentions of the encoders, as shown in Table I. This observation matches with the claim made in the DETR paper[16].
 
-Taking the unorthodox way, we are trying to combine two non-related models and without linking them, but rather having the output of one be processed into being input for the other algorithm. We are yet to experiment with the full Model Chaining approach and identify advantages of the system. We are optimistic because the DETR output is bounding boxes of objects in an image, and the input for segmentation for SegMyO are also bounding boxes. We need to get object wise mask, and take a union of the masks to create a bigger image mask. We can evaluate with the ground truth masks once the total image mask is created.
+Taking the unorthodox way, we combined two non-related models without linking them, but rather having the output of one be processed into being input for the other algorithm. We implemented the full Model Chaining approach where we passed the original image through DETR, and passed the output of DETR through SegMyO model which gave out a segmentation mask. The DETR output is bounding boxes of objects in an image, and the input for segmentation for SegMyO are also bounding boxes. We get object wise mask form SegMyO, and we stitch each object mask to create an image mask. 
 
-Future work will involve comparing the DETR models against each other image by image using all the metrics and also further qualitative analysis. This will aid in determining missed or incorrect labels. Due to its high score, relative items labeled count, and low computation time, the Resnet 50 model appears favorable for chaining with SegMyO. With that said, a final decision will be made upon the completion of the further analyses.
+We observe in qualitative measure that the edges are not fine and curves of the instances of classes in the image are not being clearly identified by the model chaining.
+
+Future work will involve comparing the DETR models against each other image by image using all the metrics and also further qualitative analysis. This will aid in determining missed or incorrect labels. 
+The DETR RESNET101-DC5 proved to be an acceptable choice for use with the SegMyO. An average of 0.789 mIoU across the Frankfurt images instance segmentation indicates the potential for the model chain to be further optimized for the Cityscapes dataset. Some limitations of the work is that item mislabeling can occur when a Cityscapes item is found to be similar to a COCO item detected by SegMyO. This occurred for street lights, for example, that in one instance was classified as a TV. Further model training can reduce this mislabeling.
+
 
 DeepLab results, Fig. 8, clearly shows that the model is successful qualitatively and Table IV shows that the model is successful quantitatively, on average. The discussion for the DeepLab is between using different architectures. The RESNET-50 being backbone is a rather famous architecture, but we also extend our implementation to use the axial-transformers combined with ResNets. We are planning to run the model on the total validation dataset and complete the analysis on the DeepLab models trained on Cityscapes.
 
+xial-DeepLabs performs better than the Panoptic-DeepLabs on aggregate, but the mIoUs and other metrics are relatively very close in our observation. We found in the literature that Axial-DeepLabs outperforms Panoptic-DeepLab by 1.2% Panoptic Quality (PQ) on the Cityscapes dataset XXXXXXXX \cite{axial_deeplab_2020} XXXXXX. In general, we see the end to end model to work better because the deep architecture enable the small features to be identified easily and training on the dataset makes the model detect better.
+
+We could not train the deep neural network using the dataset because of compute limitations, but we strongly believe that making few architectural changes to train on Cityscapes, can make the neural networks yield higher performance. One future work is to create light weight neural network for segmentation such that it can be helpful in real world applications. 
 ## Unsupervised Learning - Clustering
 
 ### Classical K-Means
