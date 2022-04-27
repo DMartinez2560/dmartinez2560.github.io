@@ -53,6 +53,8 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
     predictions in parallel. Due to this parallel nature, DETR is very
     fast and efficient[16].
 
+![image](final_project_images_tables/architecture1.png)
+
 2.  **SegMyO**: It automatically extracts the segmented objects in
     images based on given bounding boxes. When provided with the
     bounding box, it looks for the output object with the best coverage,
@@ -74,6 +76,8 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
     class-agnostic instance segmentation with semantic segmentation by
     the efficient majority-vote scheme.[15]
 
+![image](final_project_images_tables/architecture3.png)
+
 4.  **Axial-DeepLab**: It incorporates the powerful axial self-attention
     modules, also known as the encoder of Axial Transformers, for
     general dense prediction tasks. The backbone of Axial-DeepLab,
@@ -83,6 +87,9 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
     effective axial-attention blocks on top of the first few stages of
     ResNets. This hybrid CNN-Transformer architecture is very effective
     on segmentation tasks[17].
+
+    ![image](final_project_images_tables/architecture2.png)
+
 
 ![image](final_project_images_tables/figure2.png)
 
