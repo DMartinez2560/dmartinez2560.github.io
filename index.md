@@ -18,7 +18,7 @@ situations while on the road.
 
 ### Related Work
 
-Images of urban environments are often used to test novel deep learning techniques for segmentation. The Panoptic-DeepLab algorithm[5], for example, uses decoupled spatial pyramid pooling layers and dual decoder modules to simultaneously complete instance and semantic-level segmentation. The FASSST algorithm[6] performs real-time instance-level segmentation at video-grade speed by implementing an instance attention module to efficiently segment target regions and a multi-layer feature fusion model to obtain regions of interest and class probabilities. Works have also considered unsupervised learning techniques for image segmentation. For example, a Local Gaussian Mixture Model (GMM) with an additional penalty term and a local bias function has been used to segment noisy images affected by intensity-nonhomogeneity[7].
+Images of urban environments are often used to test novel deep learning techniques for segmentation. The Panoptic-DeepLab algorithm [5], for example, uses decoupled spatial pyramid pooling layers and dual decoder modules to simultaneously complete instance and semantic-level segmentation. The FASSST algorithm [6] performs real-time instance-level segmentation at video-grade speed by implementing an instance attention module to efficiently segment target regions and a multi-layer feature fusion model to obtain regions of interest and class probabilities. Works have also considered unsupervised learning techniques for image segmentation. For example, a Local Gaussian Mixture Model (GMM) with an additional penalty term and a local bias function has been used to segment noisy images affected by intensity-nonhomogeneity [7].
 
 ### Cityscapes Dataset
 
@@ -40,83 +40,36 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
 
 ![image](final_project_images_tables/figure1.png)
 
-**Method 2: Deep Neural Network** utilizes the annotation masks to train models with architectures like RESNET50 or VGG-16 [14] for creating masks of object instances. The latest development of algorithms in CNN and DL pushed to create faster and lighter (computational) networks which create segmentation masks. We tested the pre-trained neural network models of DeepLab on the Cityscapes dataset and compare the pixel-level segmentation performances between various architectures[15]. One objective was to identify any performance advantages when using the transformers combined with neural networks. The models DeepLab[14] was implemented as an end to end pre-trained neural network on Cityscapes to compare different architectures and seeing qualitative measure comparisons. 
+**Method 2: Deep Neural Network** utilizes the annotation masks to train models with architectures like RESNET50 or VGG-16 [14] for creating masks of object instances. The latest development of algorithms in CNN and DL pushed to create faster and lighter (computational) networks which create segmentation masks. We tested the pre-trained neural network models of DeepLab on the Cityscapes dataset and compare the pixel-level segmentation performances between various architectures [15]. One objective was to identify any performance advantages when using the transformers combined with neural networks. The models DeepLab [14] was implemented as an end to end pre-trained neural network on Cityscapes to compare different architectures and seeing qualitative measure comparisons. 
 
 ### Model Architecture Descriptions
 
-1.  **DETR**: It approaches object detection as a direct set prediction
-    problem. It consists of a set-based global loss, which forces unique
-    predictions via bipartite matching, and a Transformer
-    encoder-decoder architecture. Given a fixed small set of learned
-    object queries, DETR reasons about the relations of the objects and
-    the global image context to directly output the final set of
-    predictions in parallel. Due to this parallel nature, DETR is very
-    fast and efficient[16].
-
-    DETR uses ResNet as the intial neural network to extraac the image features. Then the image features are inputted it into the transformer which will give the bounding boxes for the recognized objects.
+1.  **DETR**: It approaches object detection as a direct set prediction problem. It consists of a set-based global loss, which forces unique predictions via bipartite matching, and a Transformer encoder-decoder architecture. Given a fixed small set of learned object queries, DETR reasons about the relations of the objects and the global image context to directly output the final set of predictions in parallel. Due to this parallel nature, DETR is very fast and efficient [16]. DETR uses ResNet as the intial neural network to extraac the image features. Then the image features are inputted it into the transformer which will give the bounding boxes for the recognized objects.
 
 ![image](final_project_images_tables/architecture1.png)
 
-2.  **SegMyO**: It automatically extracts the segmented objects in
-    images based on given bounding boxes. When provided with the
-    bounding box, it looks for the output object with the best coverage,
-    based on several geometric criteria. Associated with a semantic
-    segmentation model trained on a similar dataset(PASCAL-VOC and COCO)
-    this pipeline provides a simple solution to segment efficiently a
-    dataset without requiring specific training, but also to the problem
-    of weakly-supervised segmentation. This is particularly useful to
-    segment public datasets available with weak object annotations
-    coming from an algorithm (in our case DETR). Our implementation of the SegMyO model uses Mask R-CNN for segmenting the image in the bounding box, and the SegMyO algorithm chooses the mask of the main detected object neglecting the noise.
+2.  **SegMyO**: It automatically extracts the segmented objects in images based on given bounding boxes. When provided with the bounding box, it looks for the output object with the best coverage, based on several geometric criteria. Associated with a semantic segmentation model trained on a similar dataset(PASCAL-VOC and COCO) this pipeline provides a simple solution to segment efficiently a dataset without requiring specific training, but also to the problem of weakly-supervised segmentation. This is particularly useful to segment public datasets available with weak object annotations coming from an algorithm (in our case DETR). Our implementation of the SegMyO model uses Mask R-CNN for segmenting the image in the bounding box, and the SegMyO algorithm chooses the mask of the main detected object neglecting the noise.
 
-3.  **Panoptic-DeepLab**: It is a state-of-the-art box-free system for
-    panoptic segmentation, where the goal is to assign a unique value,
-    encoding both semantic label and instance ID, to every pixel in an
-    image. The class-agnostic instance segmentation is first obtained by
-    grouping the predicted foreground pixels (inferred by semantic
-    segmentation) to their closest predicted instance centers. To
-    generate final panoptic segmentation, we then fuse the
-    class-agnostic instance segmentation with semantic segmentation by
-    the efficient majority-vote scheme.[15]
-
-    Panoptic-DeepLab adopts dual-context and dual-decoder modules for semantic segmentation and instance segmentation predictions. We apply atrous convolution in the last block of a network backbone to extract denser feature map. The Atrous Spatial Pyramid Pooling (ASPP) is employed in the context module as well as a light-weight decoder module consisting of a single convolution during each upsampling stage. The instance segmentation prediction is obtained by predicting the object centers and regressing every foreground pixel (i.e., pixels with predicted ‘thing‘ class) to their corresponding center. The predicted semantic segmentation and class-agnostic instance segmentation are then fused to generate the final panoptic segmentation result by the ”majority vote” proposed by DeeperLab.[12]   
+3.  **Panoptic-DeepLab**: It is a state-of-the-art box-free system for panoptic segmentation, where the goal is to assign a unique value, encoding both semantic label and instance ID, to every pixel in an image. The class-agnostic instance segmentation is first obtained by grouping the predicted foreground pixels (inferred by semantic segmentation) to their closest predicted instance centers. To generate final panoptic segmentation, we then fuse the class-agnostic instance segmentation with semantic segmentation by the efficient majority-vote scheme [15].
+Panoptic-DeepLab adopts dual-context and dual-decoder modules for semantic segmentation and instance segmentation predictions. We apply atrous convolution in the last block of a network backbone to extract denser feature map. The Atrous Spatial Pyramid Pooling (ASPP) is employed in the context module as well as a light-weight decoder module consisting of a single convolution during each upsampling stage. The instance segmentation prediction is obtained by predicting the object centers and regressing every foreground pixel (i.e., pixels with predicted ‘thing‘ class) to their corresponding center. The predicted semantic segmentation and class-agnostic instance segmentation are then fused to generate the final panoptic segmentation result by the ”majority vote” proposed by DeeperLab [12].
 
 ![image](final_project_images_tables/architecture3.png)
 
-4.  **Axial-DeepLab**: It incorporates the powerful axial self-attention
-    modules, also known as the encoder of Axial Transformers, for
-    general dense prediction tasks. The backbone of Axial-DeepLab,
-    called Axial-ResNet, is obtained by replacing the residual blocks in
-    any type of ResNets with our proposed axial-attention blocks. They
-    adopt the hybrid CNN-Transformer architecture, where they stack the
-    effective axial-attention blocks on top of the first few stages of
-    ResNets. This hybrid CNN-Transformer architecture is very effective
-    on segmentation tasks[17].
-
-    An axial-attention block (Figure \ref{fig:axialarchitecture}) consists of two position-sensitive axial-attention layers operating along height- and width-axis sequentially. In the model we use, we have Full axial-attention block back-boned with ResNet50 to give better performance.
-
-    ![image](final_project_images_tables/architecture2.png)
+4.  **Axial-DeepLab**: It incorporates the powerful axial self-attention modules, also known as the encoder of Axial Transformers, for general dense prediction tasks. The backbone of Axial-DeepLab, called Axial-ResNet, is obtained by replacing the residual blocks in any type of ResNets with our proposed axial-attention blocks. They adopt the hybrid CNN-Transformer architecture, where they stack the effective axial-attention blocks on top of the first few stages of ResNets. This hybrid CNN-Transformer architecture is very effective on segmentation tasks [17]. An axial-attention block consists of two position-sensitive axial-attention layers operating along height- and width-axis sequentially. In the model we use, we have a full axial-attention block back-boned with ResNet50 to give better performance.
+  
+![image](final_project_images_tables/architecture2.png)
 
 ### Quantitative Metrics
 
-1.  **Mean Intersection over Union (mIoU)** is another method to
-    evaluate the predictions from an image segmentation model. This is a
-    metric that takes the IoU over all of the classes and takes the mean
-    of them. This is a good indicator of how well an image segmentation
-    model performs over all the classes that the model would want to
-    detect.
+1.  **Mean Intersection over Union (mIoU)** is another method to evaluate the predictions from an image segmentation model. This is a metric that takes the IoU over all of the classes and takes the mean of them. This is a good indicator of how well an image segmentation model performs over all the classes that the model would want to detect.
 
-2.  **Computational Time** is an important metric of evaluation. The age
-    of cloud computing, the focus of researchers are moving towards
-    accuracy, but in reality compute is still scarce and is a matter of
-    concern. Hence we will also be looking into determining time
-    efficient methods by using the inbuilt tools to calculate.
+2.  **Computational Time** is an important metric of evaluation. The age of cloud computing, the focus of researchers are moving towards accuracy, but in reality compute is still scarce and is a matter of concern. Hence we will also be looking into determining time efficient methods by using the inbuilt tools to calculate.
 
-3.  **Object count** is a metric of evaluation for the object
-    recognition algorithm used in Method 1. The simple metric can help
-    us keep on track and measure the performance of the algorithm.
+3.  **Object count** is a metric of evaluation for the object recognition algorithm used in Method 1. The simple metric can help us keep on track and measure the performance of the algorithm.
 
 ### Metric Implementation
 1. **SegMyO mIoU:** To calculate mIoU for the SegMyO, we used the ground truth images of Cityscapes "instanceIDImages" which have the instances in a mask. The challenge is the difference in the label IDs because the SegMyO algorithm was using a COCO training and the instances were stitched sequentially. We converted both the ground truth and the mask we got from SegMyO into binary masks (instance is 1, background is 0). Once we got both the masks, we calculated the mIoU to evaluate the images. Table I shows the values. The average mIoU is around 0.678 which means that most of the instances are being identified and the mask generated is close the actual ground truth. 
+
 2. **DeepLab mIoU:**  To calculate mIoU for the DeepLab, we used the ground truth panoptic images of Cityscapes which have the labelled mask. Having both the masks, we calculated the mIoU to evaluate the images.  Table II shows the values. The average mIoU is around 0.79 which means that most of the instances are being identified and the mask generated is close the actual ground truth.
 
 ### Results
@@ -143,19 +96,19 @@ Definitions of the metrics used to report results in tables and images include:
 
 ![image](final_project_images_tables/figure5.png)
 
-Fig 1,3,4 help us qualitatively understand the impact of the DETR algorithm. The bounding boxes help recognize the objects in the Cityscapes dataset. This is particularly interesting as DETR was trained on COCO dataset and has not been trained on Cityscapes data before running it on validation. Only items identified by the DETR algorithms with confidence scores of 0.9 or above were kept.
+Fig. 1,3,4 help us qualitatively understand the impact of the DETR algorithm. The bounding boxes help recognize the objects in the Cityscapes dataset. This is particularly interesting as DETR was trained on COCO dataset and has not been trained on Cityscapes data before running it on validation. Only items identified by the DETR algorithms with confidence scores of 0.9 or above were kept.
 
 Tables III, IV, V help us see which RESNET model is best and the comparison of the architecture helps us to make the best network with latest additions. A relatively constant duration of about 0.7 seconds was found across each DETR model based on the difference between Total Time and Model Time in Table I.
 
-Fig 5 provides an example of the SegMyO process run on a Frankfurt image. Each instance formed its own mask and was then stitched together into the Combined Mask. From here, a binary mask was created and overlayed on the original image to show which objects were segmented. 
+Fig. 5 provides an example of the SegMyO process run on a Frankfurt image. Each instance formed its own mask and was then stitched together into the Combined Mask. From here, a binary mask was created and overlayed on the original image to show which objects were segmented. 
 
-Fig 2 shows that DeepLab identifies all the semantic classes and all instances(additionally). Table IV shows that both Panoptic and Axial algorithms give an mIoU greater than 0.9 for Aachen dataset. Few of the images perform slightly better for Panoptic and others for Axial. We need to do more extensive testing on the total validation dataset to give a greater sense of impact of algorithms on data. In the future, we would like to optimize the architecture and see if smaller details can be better captured.
+Fig. 2 shows that DeepLab identifies all the semantic classes and all instances(additionally). Table IV shows that both Panoptic and Axial algorithms give an mIoU greater than 0.9 for Aachen dataset. Few of the images perform slightly better for Panoptic and others for Axial. We need to do more extensive testing on the total validation dataset to give a greater sense of impact of algorithms on data. In the future, we would like to optimize the architecture and see if smaller details can be better captured.
 
-Qualitative analysis was performed on each of the Frankfurt images that was inputted into the Model chain. Fig 6 show that multiple instances were detected by the DETR model and were then segmented by SegMyO. Segmented instances range from cars, trucks, people, potted plants, benches, backpacks, and clocks. Labels associated with the instances were incorrect less than 5 times (i.e., a streetlight mislabeled as a TV). Instance IDs from the Cityscapes dataset were compared against the SegMyO outputs and an average mIoU of 0.70638 was found across all the images.
+Qualitative analysis was performed on each of the Frankfurt images that was inputted into the Model chain. Fig. 6 shows that multiple instances were detected by the DETR model and were then segmented by SegMyO. Segmented instances range from cars, trucks, people, potted plants, benches, backpacks, and clocks. Labels associated with the instances were incorrect less than 5 times (i.e., a streetlight mislabeled as a TV). Instance IDs from the Cityscapes dataset were compared against the SegMyO outputs and an average mIoU of 0.70638 was found across all the images.
 
 ![image](final_project_images_tables/figure6-7.png)
 
-Fig 7 compares the two supervised models and their respective overlays. It its important to note that the model chain resulted in an instance mask and the DeepLab model resulted in a panoptic mask.
+Fig. 7 compares the two supervised models and their respective overlays. It its important to note that the model chain resulted in an instance mask and the DeepLab model resulted in a panoptic mask.
 
 ![image](final_project_images_tables/table1-2.png)
 ![image](final_project_images_tables/table3-4.png)
@@ -164,7 +117,7 @@ Fig 7 compares the two supervised models and their respective overlays. It its i
 
 ### Discussion
 
-We observed that the DETR performance for smaller items increases with the DC-5 models as the resolution is increased by a factor of 2, correlating with increases in Items Labeled in Table III. On the down side, the DC-5 models have a higher computation cost because of the higher cost associated with self-attentions of the encoders, as shown in Table I. This observation matches with the claim made in the DETR paper[16].
+We observed that the DETR performance for smaller items increases with the DC-5 models as the resolution is increased by a factor of 2, correlating with increases in Items Labeled in Table III. On the down side, the DC-5 models have a higher computation cost because of the higher cost associated with self-attentions of the encoders, as shown in Table I. This observation matches with the claim made in the DETR paper [16].
 
 Taking the unorthodox way, we combined two non-related models without linking them, but rather having the output of one be processed into being input for the other algorithm. We implemented the full Model Chaining approach where we passed the original image through DETR, and passed the output of DETR through SegMyO model which gave out a segmentation mask. The DETR output is bounding boxes of objects in an image, and the input for segmentation for SegMyO are also bounding boxes. We get object wise mask form SegMyO, and we stitch each object mask to create an image mask. 
 
@@ -180,7 +133,7 @@ We could not train the deep neural network using the dataset because of compute 
 
 ### Classical K-Means
 
-The K-Means algorithm, described in Eq. [1] was implemented on the Cityscapes raw images to perform pixel-based clustering. Given a set of observations, `X`, wewant to group the observations into `k` sets, `S`, to minimize the in-cluster variance by operating using the in-cluster mean, <img src="https://render.githubusercontent.com/render/math?math=\mu">.
+The K-Means algorithm, described in Eq. [1] was implemented on the Cityscapes raw images to perform pixel-based clustering. Given a set of observations, `X`, we want to group the observations into `k` sets, `S`, to minimize the in-cluster variance by operating using the in-cluster mean, <img src="https://render.githubusercontent.com/render/math?math=\mu">.
 
 ![](/assets/images/figures/equation.png)
 
