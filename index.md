@@ -36,9 +36,9 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
 
 ### Methods
 
-**Method 1: Model chaining** involved using Google Colab to input raw, unlabeled (n=10) Cityscapes images, Fig. 7A, into the DEtection TRansformer (DETR) model (pre-trained on the COCO dataset) [12]. Each of the images were from the Nuremburg dataset. Primary outputs of the model include images with bounding boxes labeled, Fig. 7B, and a list of bounding boxes. DETR models were compared for performance and computation time to best select a model for use with the Segment My Object (SegMyO) pipeline. Based on Tables (##### of runtime and counts and scores) (which will be described later), the RESNET101-DC5 was selected. The architecture performed similar to that of the others, and has a greater resolution [12]. The model outputs were then inputted into the SegMyO which takes bounding box information and applies masks to the raw image using Mask R-CNN [13]. The entire model chain was completed for a total of 9 images from the Frankfurt dataset. A binary instance-level mask was outputted for each image and compared to the instance IDs provided by Cityscapes. The metric for this comparison was mIoU. 
+**Method 1: Model chaining** involved using Google Colab to input raw, unlabeled (n=10) Cityscapes images, Fig. 1A, into the DEtection TRansformer (DETR) model (pre-trained on the COCO dataset) [12]. Each of the images were from the Nuremburg dataset. Primary outputs of the model include images with bounding boxes labeled, Fig. 1B, and a list of bounding boxes. DETR models were compared for performance and computation time to best select a model for use with the Segment My Object (SegMyO) pipeline. Based on Tables (##### of runtime and counts and scores) (which will be described later), the RESNET101-DC5 was selected. The architecture performed similar to that of the others, and has a greater resolution [12]. The model outputs were then inputted into the SegMyO which takes bounding box information and applies masks to the raw image using Mask R-CNN [13]. The entire model chain was completed for a total of 9 images from the Frankfurt dataset. A binary instance-level mask was outputted for each image and compared to the instance IDs provided by Cityscapes. The metric for this comparison was mIoU. 
 
-![image](assets/images/figures/fig7.png)
+![image](final_project_images_tables/figure1.png)
 
 **Method 2: Deep Neural Network** utilizes the annotation masks to trainthe model uses the architectures like RESNET50 or VGG-16 [14] to create the masks for the object instances. The latest development of algorithms in CNN and DL pushed to create faster and lighter (computational) networks which create segmentation masks. We tested the pre-trained neural network models of DeepLab on the Cityscapes dataset and compare the pixel-level segmentation performances between various architectures[15]. One objective was to identify any performance advantages when using the transformers combined with neural networks. The models DeepLab[14] was implemented as an end to end pre-trained neural network on Cityscapes to compare different architectures and seeing qualitative measure comparisons. 
 
@@ -84,7 +84,7 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
     ResNets. This hybrid CNN-Transformer architecture is very effective
     on segmentation tasks[17].
 
-![image](assets/images/figures/fig8.png)
+![image](final_project_images_tables/figure2.png)
 
 ### Quantitative Metrics
 
@@ -125,7 +125,14 @@ Definitions of the metrics used to report results in tables and images include:
 
 6.  Items Labeled refers to the number of items labeled in the image.
 
-Fig 7, 8, and 9 help us qualitatively understand the impact of the DETR algorithm. The bounding boxes help recognize the objects in the Cityscapes dataset. This is particularly interesting as DETR was trained on COCO dataset and has not been trained on Cityscapes data before running it on validation. Only items identified by the DETR algorithms with confidence scores of 0.9 or above were kept.
+
+![image](final_project_images_tables/figure3.png)
+
+![image](final_project_images_tables/figure4.png)
+
+![image](final_project_images_tables/figure5.png)
+
+Fig 3, 4, 5 help us qualitatively understand the impact of the DETR algorithm. The bounding boxes help recognize the objects in the Cityscapes dataset. This is particularly interesting as DETR was trained on COCO dataset and has not been trained on Cityscapes data before running it on validation. Only items identified by the DETR algorithms with confidence scores of 0.9 or above were kept.
 
 Tables I, II, and III help us see which RESNET model is best and the comparison of the architecture helps us to make the best network with latest additions. A relatively constant duration of about 0.7 seconds was found across each DETR model based on the difference between Total Time and Model Time in Table I.
 
@@ -135,13 +142,13 @@ Fig 8 shows that DeepLab identifies all the semantic classes and all instances(a
 
 Qualitative analysis was performed on each of the Frankfurt images that was inputted into the Model chain. Figs XYZ show that multiple instances were detected by the DETR model and were then segmented by SegMyO. Segmented instances range from cars, trucks, people, potted plants, benches, backpacks, and clocks. Labels associated with the instances were incorrect less than 5 times (i.e., a streetlight mislabeled as a TV). Instance IDs from the Cityscapes dataset were compared against the SegMyO outputs and an average mIoU of 0.70638 was found across all the images.
 
-Fig Z compares the two supervised models and their respective overlays. It its important to note that the model chain resulted in an instance mask and the DeepLab model resulted in a panoptic mask.
+![image](final_project_images_tables/figure6-7.png)
 
-![image](assets/images/Tables.PNG)
+Fig 5, 6 compares the two supervised models and their respective overlays. It its important to note that the model chain resulted in an instance mask and the DeepLab model resulted in a panoptic mask.
 
-![image](assets/images/figures/fig9.png)
-
-![image](assets/images/figures/fig10.png)
+![image](final_project_images_tables/table1-2.PNG)
+![image](final_project_images_tables/table3-4.PNG)
+![image](final_project_images_tables/table5-6.PNG)
 
 Add Comparison of Models fig
 
@@ -168,9 +175,9 @@ The K-Means algorithm, described in Eq. [1] was implemented on the Cityscapes r
 
 ![](/assets/images/figures/equation.png)
 
-We used the \"RGB\" color-space for clustering and used a resize operation to reduce the dimensions of the images to be clustered from 1024x2048x3 to a scaled pixel-wdith of 300. The a sample result set of the K-Means operation is shown in Fig. 1.
+We used the \"RGB\" color-space for clustering and used a resize operation to reduce the dimensions of the images to be clustered from 1024x2048x3 to a scaled pixel-wdith of 300. The a sample result set of the K-Means operation is shown in Fig. 8.
 
-![image](assets/images/figures/fig1.png)
+![image](final_project_images_tables/figure8.png)
 
 ### HOG Feature Extraction
 
@@ -188,19 +195,17 @@ Prior to extracting HOG features, we convert the image to gray-scale and perform
 
 To extract the HOG descriptors, we choose image patches of size (16, 16) with 4 cells in each image patch. We then generate a gradient histogram of 32 bins for each cell, resulting in a 128-length descriptor for each image patch. We also resize the image from 1024x2048 to 360x720 to reduce the computational cost of segmentation.
 
-In order to determine the number of clusters, we first used the elbow method by plotting the Sum of Squares value calculated from test images versus the number of clusters. The elbow plots are shown in Fig 2. As the elbow plots did not provide any conclusive value for the ideal number of clusters, we also plotted the average silhouette coefficient of test samples for each clusters. The plots of average silhouette coefficients are shown in Fig 3. From these graphs, we find that the highest silhouette coefficients for the Aachen and Nuremberg data exist at 10 and 4 clusters respectively.
+![image](final_project_images_tables/figure9-10.png)
 
-![image](assets/images/figures/fig2.png)
-
-![image](assets/images/figures/fig3.png)
+In order to determine the number of clusters, we first used the elbow method by plotting the Sum of Squares value calculated from test images versus the number of clusters. The elbow plots are shown in Fig 9. As the elbow plots did not provide any conclusive value for the ideal number of clusters, we also plotted the average silhouette coefficient of test samples for each clusters. The plots of average silhouette coefficients are shown in Fig 10. From these graphs, we find that the highest silhouette coefficients for the Aachen and Nuremberg data exist at 10 and 4 clusters respectively.
 
 #### Qualitative Comparison and Discussion
 
-![image](assets/images/figures/fig4.png)
+![image](final_project_images_tables/figure11.png)
 
-![image](assets/images/figures/fig5.png)
+![image](final_project_images_tables/figure12.png)
 
-Figures 4 and 5 show the final segmentation masks obtained for each of the three test images taken from the Aachen and Nuremburg data. Looking at these images, we make the following observations: 
+Figures 11 and 12 show the final segmentation masks obtained for each of the three test images taken from the Aachen and Nuremburg data. Looking at these images, we make the following observations: 
 
 1.  The segmentation masks are very sensitive to edges and corners in the image. This is especially prominent in the Aachen images, where surface markings on the road are being separated from the road. This is mainly because the gradient of an image is very high at edges, corners and other sharp changes in image intensity due to which they tend to overpower the image descriptor.
 
@@ -214,29 +219,30 @@ To summarize, we believe that performing unsupervised clustering either directly
 
 Density-based spatial clustering of applications with noise (DBSCAN) is a clustering method that groups together closely packed points. It divides points into three categories: core points, border points, and outliers. The clustering is based on two main parameters: Eps and MinPoints. Eps is the distance from a point for which the algorithm looks for nearby points to evaluate the density and MinPoints is the threshold for the number of points in the range defined by Eps necessary to mark a point as high or low density. Core points have more than the defined number of points in their neighborhood. Border points have less points than defined in their neighborhood but are in the neighborhood of a core point. Outliers are points that aren't core points or border points. Core points serve as the interior of clusters and border points as the edges of clusters.
 
-In Figure 6 we show the results of DBSCAN clustering on 4 images from the Aachen data set. The clustering seems to separate the road in the images from the background objects. This is likely due to the large size of the road in the frame and it's uniformity in color making it easy to segment. The background has a lot of features and varying objects which all get grouped together as high density. Where the road is more clearly defined by borders and medians, the edges of the cluster of the road is preserved very well. In the images with more objects around the edges of the road, the division is not as clear.
+![image](final_project_images_tables/figure13.png)
+
+In Figure 13 we show the results of DBSCAN clustering on 4 images from the Aachen data set. The clustering seems to separate the road in the images from the background objects. This is likely due to the large size of the road in the frame and it's uniformity in color making it easy to segment. The background has a lot of features and varying objects which all get grouped together as high density. Where the road is more clearly defined by borders and medians, the edges of the cluster of the road is preserved very well. In the images with more objects around the edges of the road, the division is not as clear.
 
 We plan on comparing the performance of DBSCAN for object segmentation against K-means clustering and the raw images.
-
-![image](assets/images/figures/fig6.png)
 
 
 ## Informing Supervised Object Detection using Unsupervised Clustering Techniques
 ### Methodology
 The above sections discuss the individual unsupervised and supervised learning methods we investigated in this project. One key observation we derived from the qualitative unsupervised results is that the standalone clustering techniques we adopted were insufficient for the task of pixel-level segmentation. However, the clustering techniques were able to separate some entities in the image with low/moderate accuracy. We now investigate whether the information extracted by unsupervised clustering can be used to inform the supervised object detection method and possibly improve its performance.
 
-We provide a qualitative comparison of whether using the clustered images from K-Means and DBSCAN would affect the object detection performance of the DETR model. For this comparison, we chose the K-Means clustering technique described in section (#FIRST KMEANS SECTION) with a k value of 5 and the DBSCAN clustering used in section (#DBSCAN SECTION). We compare the following techniques: 1) DETR-RAW: Raw images are sent to the DETR object detector, 2) DETR-K-Means: Raw images are first clustered in the pixel space using K-Means clustering and the resulting clustered image is sent to the DETR object detector and 3) DETR-DBSCAN: Raw images are first clustered in the pixel space using DBSCAN clustering and the resulting clustered image is sent to the DETR object detector.
+We provide a qualitative comparison of whether using the clustered images from K-Means and DBSCAN would affect the object detection performance of the DETR model. For this comparison, we chose the classical K-Means clustering technique  with a k value of 5 and the DBSCAN clustering used in the previous section. We compare the following techniques: 1) DETR-RAW: Raw images are sent to the DETR object detector, 2) DETR-K-Means: Raw images are first clustered in the pixel space using K-Means clustering and the resulting clustered image is sent to the DETR object detector and 3) DETR-DBSCAN: Raw images are first clustered in the pixel space using DBSCAN clustering and the resulting clustered image is sent to the DETR object detector.
 
 As the cityscapes dataset only has annotations for pixel-level segmentation, we used the pixel annotations to generate our own bounding boxes by drawing the smallest box around an object that encloses all pixels of the desired object. We then calculate the mean Intersection over Union (IOU) for each image as such: given a ground truth label and bounding box within an image, we find the prediction with the same predicted label and the highest IOU value. The IOU of a single image is obtained by averaging over the IOU values of all objects in the ground truth, and the mean IOU is the average IOU of all images in the test dataset. The following subsection presents a discussion of the results obtained from this comparison.
 
 ### Results and Discussion
-As shown in Fig. (#DETR_UNSUP), there is a reduction in detected objects when using the unsupervised method output images instead of a raw image from the Cityscapes dataset. The DETR-K-Means images (at 5 clusters) have a reduced number of bounding boxes when compared to the raw image; however, they also have higher confidence values for certain detected objects. We can conclude that DETR works better with raw images than with preprocessed images, as its data preprocessing methods likely cannot account for aditional filtering or recoloring as with the K-Means output. A higher number of clusters would allow for increased number of objects detected, but this would also demand increased computation time for no practical benefit. Furthermore, the DETR-DBSCAN results clearly show an inability to recover any objects except a singular, mislabeled truck. The DBSCAN output image deviates too much from the raw image without providing any additional context for DETR to use.
 
-![image](assets/images/figures/detr_unsup_comparison.png)
+![image](final_project_images_tables/figure14.png)
 
-These trends are made clear in Table (#TABLE MIOU UNSUP). Mean IOU decreases as the image deviates more from the original, raw image. While DETR-K-Means was able to provide higher confidence values for some objects, other, more obvious objects were not detected by the algorithm (e.g. the car in the foreground of the bottom image). Thus, the noise introduced by the visual deviations from the raw image show that combining clustering methods with DETR in this manner is not beneficial.
+As shown in Fig. 14, there is a reduction in detected objects when using the unsupervised method output images instead of a raw image from the Cityscapes dataset. The DETR-K-Means images (at 5 clusters) have a reduced number of bounding boxes when compared to the raw image; however, they also have higher confidence values for certain detected objects. We can conclude that DETR works better with raw images than with preprocessed images, as its data preprocessing methods likely cannot account for aditional filtering or recoloring as with the K-Means output. A higher number of clusters would allow for increased number of objects detected, but this would also demand increased computation time for no practical benefit. Furthermore, the DETR-DBSCAN results clearly show an inability to recover any objects except a singular, mislabeled truck. The DBSCAN output image deviates too much from the raw image without providing any additional context for DETR to use.
 
-![image](assets/images/figures/miou_unsup.jpg)
+![image](final_project_images_tables/figure15.png)
+
+These trends are made clear in the table shown in Fig. 15. Mean IOU decreases as the image deviates more from the original, raw image. While DETR-K-Means was able to provide higher confidence values for some objects, other, more obvious objects were not detected by the algorithm (e.g. the car in the foreground of the bottom image). Thus, the noise introduced by the visual deviations from the raw image show that combining clustering methods with DETR in this manner is not beneficial.
 
 ## Conclusion
 Object detection and instance segmentation are relevant and interesting problems to solve for autonomous navigation in urban environments. By applying supervised and unsupervised learning methods to image data, meaningful conclusions about the vehicles surroundings can be made and subsequently used to inform autonomous driving decisions. Our work applied five different learning methods to images from the Cityscapes dataset to test their effectiveness at extracting meaningful information from an urban environment. We used... and found that...
