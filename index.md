@@ -90,9 +90,6 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
 
     ![image](final_project_images_tables/architecture2.png)
 
-
-![image](final_project_images_tables/figure2.png)
-
 ### Quantitative Metrics
 
 1.  **Mean Intersection over Union (mIoU)** is another method to
@@ -132,6 +129,7 @@ Definitions of the metrics used to report results in tables and images include:
 
 6.  Items Labeled refers to the number of items labeled in the image.
 
+![image](final_project_images_tables/figure2.png)
 
 ![image](final_project_images_tables/figure3.png)
 
