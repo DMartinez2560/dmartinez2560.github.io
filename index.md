@@ -132,25 +132,23 @@ Definitions of the metrics used to report results in tables and images include:
 
 ![image](final_project_images_tables/figure5.png)
 
-Fig 3, 4, 5 help us qualitatively understand the impact of the DETR algorithm. The bounding boxes help recognize the objects in the Cityscapes dataset. This is particularly interesting as DETR was trained on COCO dataset and has not been trained on Cityscapes data before running it on validation. Only items identified by the DETR algorithms with confidence scores of 0.9 or above were kept.
+Fig 1,3,4 help us qualitatively understand the impact of the DETR algorithm. The bounding boxes help recognize the objects in the Cityscapes dataset. This is particularly interesting as DETR was trained on COCO dataset and has not been trained on Cityscapes data before running it on validation. Only items identified by the DETR algorithms with confidence scores of 0.9 or above were kept.
 
-Tables I, II, and III help us see which RESNET model is best and the comparison of the architecture helps us to make the best network with latest additions. A relatively constant duration of about 0.7 seconds was found across each DETR model based on the difference between Total Time and Model Time in Table I.
+Tables III, IV, V help us see which RESNET model is best and the comparison of the architecture helps us to make the best network with latest additions. A relatively constant duration of about 0.7 seconds was found across each DETR model based on the difference between Total Time and Model Time in Table I.
 
-Fig XX provides an example of the SegMyO process run on a Frankfurt image. Each instance formed its own mask and was then stitched together into the Combined Mask. From here, a binary mask was created and overlayed on the original image to show which objects were segmented. 
+Fig 5 provides an example of the SegMyO process run on a Frankfurt image. Each instance formed its own mask and was then stitched together into the Combined Mask. From here, a binary mask was created and overlayed on the original image to show which objects were segmented. 
 
-Fig 8 shows that DeepLab identifies all the semantic classes and all instances(additionally). Table IV shows that both Panoptic and Axial algorithms give an mIoU greater than 0.9 for Aachen dataset. Few of the images perform slightly better for Panoptic and others for Axial. We need to do more extensive testing on the total validation dataset to give a greater sense of impact of algorithms on data. Few features like small objects can be better recognized in few architecture than others.
+Fig 2 shows that DeepLab identifies all the semantic classes and all instances(additionally). Table IV shows that both Panoptic and Axial algorithms give an mIoU greater than 0.9 for Aachen dataset. Few of the images perform slightly better for Panoptic and others for Axial. We need to do more extensive testing on the total validation dataset to give a greater sense of impact of algorithms on data. Few features like small objects can be better recognized in few architecture than others.
 
-Qualitative analysis was performed on each of the Frankfurt images that was inputted into the Model chain. Figs XYZ show that multiple instances were detected by the DETR model and were then segmented by SegMyO. Segmented instances range from cars, trucks, people, potted plants, benches, backpacks, and clocks. Labels associated with the instances were incorrect less than 5 times (i.e., a streetlight mislabeled as a TV). Instance IDs from the Cityscapes dataset were compared against the SegMyO outputs and an average mIoU of 0.70638 was found across all the images.
+Qualitative analysis was performed on each of the Frankfurt images that was inputted into the Model chain. Figs 6 show that multiple instances were detected by the DETR model and were then segmented by SegMyO. Segmented instances range from cars, trucks, people, potted plants, benches, backpacks, and clocks. Labels associated with the instances were incorrect less than 5 times (i.e., a streetlight mislabeled as a TV). Instance IDs from the Cityscapes dataset were compared against the SegMyO outputs and an average mIoU of 0.70638 was found across all the images.
 
 ![image](final_project_images_tables/figure6-7.png)
 
-Fig 5, 6 compares the two supervised models and their respective overlays. It its important to note that the model chain resulted in an instance mask and the DeepLab model resulted in a panoptic mask.
+Fig 7 compares the two supervised models and their respective overlays. It its important to note that the model chain resulted in an instance mask and the DeepLab model resulted in a panoptic mask.
 
-![image](final_project_images_tables/table1-2.jpg)
-![image](final_project_images_tables/table3-4.jpg)
-![image](final_project_images_tables/table5-6.jpg)
-
-Add Comparison of Models fig
+![image](final_project_images_tables/table1-2.png)
+![image](final_project_images_tables/table3-4.png)
+![image](final_project_images_tables/table5-6.png)
 
 
 ### Discussion
@@ -164,7 +162,7 @@ We observe in qualitative measure that the edges are not fine and curves of the 
 Future work will involve comparing the DETR models against each other image by image using all the metrics and also further qualitative analysis. This will aid in determining missed or incorrect labels. 
 The DETR RESNET101-DC5 proved to be an acceptable choice for use with the SegMyO. An average of 0.789 mIoU across the Frankfurt images instance segmentation indicates the potential for the model chain to be further optimized for the Cityscapes dataset. Some limitations of the work is that item mislabeling can occur when a Cityscapes item is found to be similar to a COCO item detected by SegMyO. This occurred for street lights, for example, that in one instance was classified as a TV. Further model training can reduce this mislabeling.
 
-DeepLab results, Fig. 8, clearly shows that the model is successful qualitatively and Table IV shows that the model is successful quantitatively, on average. The discussion for the DeepLab is between using different architectures. The RESNET-50 being backbone is a rather famous architecture, but we also extend our implementation to use the axial-transformers combined with ResNets. We are planning to run the model on the total validation dataset and complete the analysis on the DeepLab models trained on Cityscapes. Axial-DeepLabs performs better than the Panoptic-DeepLabs on aggregate, but the mIoUs and other metrics are relatively very close in our observation. We found in the literature that Axial-DeepLabs outperforms Panoptic-DeepLab by 1.2% Panoptic Quality (PQ) on the Cityscapes dataset XXXXXXXX \cite{axial_deeplab_2020} XXXXXX. In general, we see the end to end model to work better because the deep architecture enable the small features to be identified easily and training on the dataset makes the model detect better.
+DeepLab results, Fig. 2, clearly shows that the model is successful qualitatively and Table VI shows that the model is successful quantitatively, on average. The discussion for the DeepLab is between using different architectures. The RESNET-50 being backbone is a rather famous architecture, but we also extend our implementation to use the axial-transformers combined with ResNets. We are planning to run the model on the total validation dataset and complete the analysis on the DeepLab models trained on Cityscapes. Axial-DeepLabs performs better than the Panoptic-DeepLabs on aggregate, but the mIoUs and other metrics are relatively very close in our observation. We found in the literature that Axial-DeepLabs outperforms Panoptic-DeepLab by 1.2% Panoptic Quality (PQ) on the Cityscapes dataset [14]. In general, we see the end to end model to work better because the deep architecture enable the small features to be identified easily and training on the dataset makes the model detect better.
 
 We could not train the deep neural network using the dataset because of compute limitations, but we strongly believe that making few architectural changes to train on Cityscapes, can make the neural networks yield higher performance. One future work is to create light weight neural network for segmentation such that it can be helpful in real world applications. 
 ## Unsupervised Learning - Clustering
