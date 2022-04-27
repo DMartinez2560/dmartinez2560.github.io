@@ -200,17 +200,27 @@ Density-based spatial clustering of applications with noise (DBSCAN) is a cluste
 
 In Figure 6 we show the results of DBSCAN clustering on 4 images from the Aachen data set. The clustering seems to separate the road in the images from the background objects. This is likely due to the large size of the road in the frame and it's uniformity in color making it easy to segment. The background has a lot of features and varying objects which all get grouped together as high density. Where the road is more clearly defined by borders and medians, the edges of the cluster of the road is preserved very well. In the images with more objects around the edges of the road, the division is not as clear.
 
-We plan on comparing the performance of DBSCAN for object segmentation against Kmeans clustering and the raw images.
+We plan on comparing the performance of DBSCAN for object segmentation against K-means clustering and the raw images.
 
 ![image](assets/images/figures/fig6.png)
 
 
 ## Informing Supervised Object Detection using Unsupervised Clustering Techniques
+### Methodology
 The above sections discuss the individual unsupervised and supervised learning methods we investigated in this project. One key observation we derived from the qualitative unsupervised results is that the standalone clustering techniques we adopted were insufficient for the task of pixel-level segmentation. However, the clustering techniques were able to separate some entities in the image with low/moderate accuracy. We now investigate whether the information extracted by unsupervised clustering can be used to inform the supervised object detection method and possibly improve its performance.
 
-We provide a qualitative comparison of whether using the clustered images from KMeans and DBSCAN would affect the object detection performance of the DETR model. For this comparison, we chose the KMeans clustering technique described in section (#FIRST KMEANS SECTION) with a k value of 5 and the DBSCAN clustering used in section (#DBSCAN SECTION). We compare the following techniques: 1) DETR-RAW: Raw images are sent to the DETR object detector, 2) DETR-KMeans: Raw images are first clustered in the pixel space using KMeans clustering and the resulting clustered image is sent to the DETR object detector and 3) DETR-DBSCAN: Raw images are first clustered in the pixel space using DBSCAN clustering and the resulting clustered image is sent to the DETR object detector.
+We provide a qualitative comparison of whether using the clustered images from K-Means and DBSCAN would affect the object detection performance of the DETR model. For this comparison, we chose the K-Means clustering technique described in section (#FIRST KMEANS SECTION) with a k value of 5 and the DBSCAN clustering used in section (#DBSCAN SECTION). We compare the following techniques: 1) DETR-RAW: Raw images are sent to the DETR object detector, 2) DETR-K-Means: Raw images are first clustered in the pixel space using K-Means clustering and the resulting clustered image is sent to the DETR object detector and 3) DETR-DBSCAN: Raw images are first clustered in the pixel space using DBSCAN clustering and the resulting clustered image is sent to the DETR object detector.
 
 As the cityscapes dataset only has annotations for pixel-level segmentation, we used the pixel annotations to generate our own bounding boxes by drawing the smallest box around an object that encloses all pixels of the desired object. We then calculate the mean Intersection over Union (IOU) for each image as such: given a ground truth label and bounding box within an image, we find the prediction with the same predicted label and the highest IOU value. The IOU of a single image is obtained by averaging over the IOU values of all objects in the ground truth, and the mean IOU is the average IOU of all images in the test dataset. The following subsection presents a discussion of the results obtained from this comparison.
+
+### Results and Discussion
+As shown in Fig. (#DETR_UNSUP), there is a reduction in detected objects when using the unsupervised method output images instead of a raw image from the Cityscapes dataset. The DETR-K-Means images (at 5 clusters) have a reduced number of bounding boxes when compared to the raw image; however, they also have higher confidence values for certain detected objects. We can conclude that DETR works better with raw images than with preprocessed images, as its data preprocessing methods likely cannot account for aditional filtering or recoloring as with the K-Means output. A higher number of clusters would allow for increased number of objects detected, but this would also demand increased computation time for no practical benefit. Furthermore, the DETR-DBSCAN results clearly show an inability to recover any objects except a singular, mislabeled truck. The DBSCAN output image deviates too much from the raw image without providing any additional context for DETR to use.
+
+![image](assets/images/figures/detr_unsup_comparison.png)
+
+These trends are made clear in Table (#TABLE MIOU UNSUP). Mean IOU decreases as the image deviates more from the original, raw image. While DETR-K-Means was able to provide higher confidence values for some objects, other, more obvious objects were not detected by the algorithm (e.g. the car in the foreground of the bottom image). Thus, the noise introduced by the visual deviations from the raw image show that combining clustering methods with DETR in this manner is not beneficial.
+
+![image](assets/images/figures/miou_unsup.jpg)
 
 ## References
 1. O. Ronneberger, P. Fischer, and T. Brox, “U-net: Convolutional
