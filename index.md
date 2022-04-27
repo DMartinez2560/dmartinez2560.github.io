@@ -106,7 +106,7 @@ Supervised algorithms were performed using the fine annotations of the Cityscape
     us keep on track and measure the performance of the algorithm.
 
 ### Metric Implementation
-1. **SegMyO mIoU:** To calculate mIoU for the SegMyO, we used the ground truth images of Cityscapes "instanceIDImages" which have the instances in a mask. The challenge is the difference in the label IDs because the SegMyO algorithm was using a COCO training and the instances were stitched sequentially. We converted both the ground truth and the mask we got from SegMyO into binary masks (instance is 1, background is 0). Once we got both the masks, we calculated the mIoU to evaluate the images. Table (SegMyO mIoU) shows the values. The average mIoU is around 0.713 which means that most of the instances are being identified and the mask generated is close the actual ground truth. 
+1. **SegMyO mIoU:** To calculate mIoU for the SegMyO, we used the ground truth images of Cityscapes "instanceIDImages" which have the instances in a mask. The challenge is the difference in the label IDs because the SegMyO algorithm was using a COCO training and the instances were stitched sequentially. We converted both the ground truth and the mask we got from SegMyO into binary masks (instance is 1, background is 0). Once we got both the masks, we calculated the mIoU to evaluate the images. Table (SegMyO mIoU) shows the values. The average mIoU is around 0.678 which means that most of the instances are being identified and the mask generated is close the actual ground truth. 
 2. **DeepLab mIoU:**  To calculate mIoU for the DeepLab, we used the ground truth panoptic images of Cityscapes which have the labelled mask. Having both the masks, we calculated the mIoU to evaluate the images.  Table (DeepLabmIoU) shows the values. The average mIoU is around 0.79 which means that most of the instances are being identified and the mask generated is close the actual ground truth.
 
 ### Results
@@ -146,9 +146,9 @@ Qualitative analysis was performed on each of the Frankfurt images that was inpu
 
 Fig 5, 6 compares the two supervised models and their respective overlays. It its important to note that the model chain resulted in an instance mask and the DeepLab model resulted in a panoptic mask.
 
-![image](final_project_images_tables/table1-2.PNG)
-![image](final_project_images_tables/table3-4.PNG)
-![image](final_project_images_tables/table5-6.PNG)
+![image](final_project_images_tables/table1-2.jpg)
+![image](final_project_images_tables/table3-4.jpg)
+![image](final_project_images_tables/table5-6.jpg)
 
 Add Comparison of Models fig
 
@@ -245,7 +245,9 @@ As shown in Fig. 14, there is a reduction in detected objects when using the uns
 These trends are made clear in the table shown in Fig. 15. Mean IOU decreases as the image deviates more from the original, raw image. While DETR-K-Means was able to provide higher confidence values for some objects, other, more obvious objects were not detected by the algorithm (e.g. the car in the foreground of the bottom image). Thus, the noise introduced by the visual deviations from the raw image show that combining clustering methods with DETR in this manner is not beneficial.
 
 ## Conclusion
-Object detection and instance segmentation are relevant and interesting problems to solve for autonomous navigation in urban environments. By applying supervised and unsupervised learning methods to image data, meaningful conclusions about the vehicles surroundings can be made and subsequently used to inform autonomous driving decisions. Our work applied five different learning methods to images from the Cityscapes dataset to test their effectiveness at extracting meaningful information from an urban environment. We used... and found that...
+Object detection and instance segmentation are relevant and interesting problems to solve for autonomous navigation in urban environments. By applying supervised and unsupervised learning methods to image data, meaningful conclusions about the vehicles surroundings can be made and subsequently used to inform autonomous driving decisions. Five learning methods were used to complete instance segmentation – Supervised: (1) Model Chaining and (2) Deep Neural Network and Unsupervised: (3) K-Means Clustering of RGB Values, (4) K-Means Clustering of HoG Features, and (5) DBSCAN. 
+
+Model chaining used DETR and SegMyO which were pretrained on the COCO dataset, limiting its overall instance-level mIoU to just above 0.68. In comparison, DeepLab was able to clearly complete panoptic segmentation and reached an mIoU of 0.79. The Deeplab was thus the better of the two supervised models. From the unsupervised methods, K-Means clustering of RGB values could not produce meaningful data beyond reducing the color complexity of the image by reducing the variability of RGB values within each cluster. In addition, K-Means clustering of HoG features showed some initial promise for foreground extraction; however, this needs to be paired with an additional method to truly accomplish this. Finally, DBSCAN showed potential for identifying the road in urban environment images; however, this would also need an additional method to create a label for pixels grouped in this way. Of the unsupervised methods, K-Means clustering of RGB values and DBSCAN were compared using DETR. Results showed that using the output images of these methods returned worse results than using the raw image values; likely due to the preprocessing that DETR uses. However, K-Means did perform better than DBSCAN, likely because it altered the images to a lesser degree. Ultimately, further training of the model chain, and parameter tuning of the DeepLab and unsupervised techniques can be completed to yield more accurate results.
 
 ## References
 1. O. Ronneberger, P. Fischer, and T. Brox, “U-net: Convolutional
