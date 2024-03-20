@@ -2007,6 +2007,11 @@ input, select, textarea {
 			background-color: #f4f4f4;
 			text-shadow: 1px 1px 0px #fff;
 		}
+		.wrapper.styleMe {
+			background-color: #f4f4f4;
+			text-shadow: 1px 1px 0px #fff;
+			text-align: left;
+		}
 
 		.wrapper.style4 {
 			background-color: #303030;
