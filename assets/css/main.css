@@ -288,7 +288,7 @@ input, select, textarea {
 		@media screen and (min-width: 768px) {
 			#work .row {
 				display: flex;
-				align-items: top;
+				align-items: center;
 			}
 			#work .col-8 {
 				padding-right: 20px;
